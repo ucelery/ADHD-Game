@@ -260,8 +260,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 8001137344940622134, guid: 8553391eeb4486c478ed5d14e65e24b0, type: 3}
-  weapon: {fileID: 11400000, guid: 9e7a820c4968721458468931c45259ce, type: 2}
-  baseAttackSpeed: 3.5
+  weapon: {fileID: 11400000, guid: 2dd2e438f57b8ba45acabb4ad0e664e4, type: 2}
+  baseAttackSpeed: 5
   attackSpeed: 1
 --- !u!212 &612671679
 SpriteRenderer:

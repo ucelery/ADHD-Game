@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   projectiles:
-  - {fileID: 11400000, guid: 895f32e423f9092409bbc899277f08de, type: 2}
-  rof: 0.1
+  - {fileID: 11400000, guid: 0b35a3af7b97d5e49bc7dd4cb94a5f5c, type: 2}
+  - {fileID: 11400000, guid: 2673224f01ff0fd448d1243e4f431901, type: 2}
+  - {fileID: 11400000, guid: a1b3a5aba9711be4ba35869d1f59cd8a, type: 2}
+  - {fileID: 11400000, guid: adddfe7736594954ca8a32b28710026f, type: 2}
+  rof: 1

@@ -17,4 +17,4 @@ MonoBehaviour:
   frequency: 2
   amplitude: 0
   lifespan: 1.5
-  directionOffset: {x: 1, y: 0, z: 0}
+  directionOffset: 3
