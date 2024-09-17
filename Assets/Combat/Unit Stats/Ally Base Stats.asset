@@ -9,12 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 897973a5f949498428509200665562ba, type: 3}
-  m_Name: Straight
+  m_Script: {fileID: 11500000, guid: 10eab88f4953a8842a5cfd1dfe655d01, type: 3}
+  m_Name: Ally Base Stats
   m_EditorClassIdentifier: 
-  isReversed: 0
-  speed: 15
-  frequency: 2
-  amplitude: 0
-  lifespan: 1.5
-  directionOffset: 3
+  hitPoints: 100
+  manaPoints: 100
+  speed: 3
+  attack: 5
+  attackSpeed: 3.5
+  hpRegen: 5
+  mpRegen: 5
+  defense: 4

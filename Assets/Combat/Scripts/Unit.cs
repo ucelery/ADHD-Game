@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit : MonoBehaviour {
+	[SerializeField] private UnitStatsData _base;
+	[SerializeField] private UnitStatsData _growth;
 	[SerializeField] private GameObject projectilePrefab;
 	[SerializeField] private WeaponData weapon;
-	[SerializeField] private float baseAttackSpeed;
-	[SerializeField] private float attackSpeed;
+	[SerializeField] private LevelHandler levelHandler;
 
 	private float fireDelay;
 
@@ -21,8 +22,13 @@ public class Unit : MonoBehaviour {
 
 		if (Input.GetMouseButton(0)) {
 			if (fireDelay <= 0) {
-				ShootProjectile(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+				ShootProjectile(Camera.main.ScreenToWorldPoint(Input.mousePosition));	
 			}
+		}
+
+		// Simulate gaining XP (for testing purposes)
+		if (Input.GetKeyDown(KeyCode.X)) {
+			levelHandler.GainXP(50);  // Add 50 XP when pressing "X"
 		}
 	}
 
@@ -33,8 +39,8 @@ public class Unit : MonoBehaviour {
 			projectileComp.Initialize(proj, shootDirection.normalized);
 		}
 
-		fireDelay = 1.0f / (baseAttackSpeed * weapon.rof * attackSpeed);
+		fireDelay = 1.0f / (_base.attackSpeed * weapon.rof * (1 + _growth.attackSpeed * levelHandler.Level));
 
-		Debug.Log($"1.0f / Base: {baseAttackSpeed}; RoF: {weapon.rof}; AtkSpd: {attackSpeed}; {fireDelay}");
+		Debug.Log($"1.0f / Base: {_base.attackSpeed}; RoF: {weapon.rof}; AtkSpd: {(_growth.attackSpeed * levelHandler.Level)}; {fireDelay}");
 	}
 }

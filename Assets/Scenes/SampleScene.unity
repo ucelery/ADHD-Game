@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 612671678}
   - component: {fileID: 612671679}
   m_Layer: 0
-  m_Name: Shooter
+  m_Name: Ally
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -259,10 +259,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e22c1e0bab6d0c04abca63874fa5c426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _base: {fileID: 11400000, guid: 5284b52af1414604097d0ac41e559ac3, type: 2}
+  _growth: {fileID: 11400000, guid: ae5c521fc16e7da42bc7dadc5ebcac99, type: 2}
   projectilePrefab: {fileID: 8001137344940622134, guid: 8553391eeb4486c478ed5d14e65e24b0, type: 3}
-  weapon: {fileID: 11400000, guid: 2dd2e438f57b8ba45acabb4ad0e664e4, type: 2}
-  baseAttackSpeed: 5
-  attackSpeed: 1
+  weapon: {fileID: 11400000, guid: 9e7a820c4968721458468931c45259ce, type: 2}
+  levelHandler:
+    level: 1
+    currentXP: 0
+    baseXP: 100
+    logBase: 1.5
+    requiredXP: 0
 --- !u!212 &612671679
 SpriteRenderer:
   m_ObjectHideFlags: 0

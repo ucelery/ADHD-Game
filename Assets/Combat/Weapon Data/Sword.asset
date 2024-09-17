@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 897973a5f949498428509200665562ba, type: 3}
-  m_Name: Straight 3
+  m_Script: {fileID: 11500000, guid: fc923926732db9746af49de1a30442d0, type: 3}
+  m_Name: Sword
   m_EditorClassIdentifier: 
-  isReversed: 0
-  speed: 15
-  frequency: 2
-  amplitude: 0
-  lifespan: 1.5
-  directionOffset: -3
+  projectiles:
+  - {fileID: 11400000, guid: 0b35a3af7b97d5e49bc7dd4cb94a5f5c, type: 2}
+  rof: 1
