@@ -5,40 +5,77 @@ using UnityEngine;
 
 public class InventoryItem : Interactable {
 	[Header("Inventory Properties")]
-	[SerializeField] private Transform[] cells;
-	private Dictionary<Transform, InteractLock> cellBind = new();
+	[SerializeField] private ItemData itemData;
+
+	private Dictionary<Vector2, InteractLock> cellBind = new();
+	private List<BoxCollider2D> currentColliders = new();
 
 	private float rotation = 0;
 
 	protected override void Start() {
-		foreach (Transform cell in cells) {
-			cellBind.Add(cell, null);
+		Initialize(itemData);
+	}
+
+	public void Initialize(ItemData itemData) {
+		this.itemData = itemData;
+
+		// Add / Edit Colliders for the items
+		int higher = currentColliders.Count > itemData.BoxColliderData.Length ? currentColliders.Count : itemData.BoxColliderData.Length;
+		cellBind = new();
+		for (int i = 0; i < higher; i++) {
+			// Check if theres not enough colliders / cells
+			if (currentColliders.Count <= i) {
+				BoxCollider2D new_collider = gameObject.AddComponent<BoxCollider2D>();
+				currentColliders.Add(new_collider);
+				new_collider.usedByComposite = true;
+			}
+
+			BoxCollider2D col_item = currentColliders[i];
+			col_item.offset = itemData.BoxColliderData[i].offset;
+			col_item.size = itemData.BoxColliderData[i].size;
+			cellBind.Add(col_item.offset, null);
+
+			// If theres a surplus in BoxColliders, deactivate them
+			if (i >= currentColliders.Count) {
+				currentColliders[i].enabled = false;
+			}
 		}
 	}
 
 	public void ToggleRotate() {
 		switch (rotation) {
 			case 0f:
-				rotation = 90f;
-				break;
-			case 90f:
-				rotation = 180f;
-				break;
-			case 180f:
 				rotation = 270f;
 				break;
 			case 270f:
+				rotation = 180f;
+				break;
+			case 180f:
+				rotation = 90f;
+				break;
+			case 90f:
 				rotation = 0f;
 				break;
 		}
 
-		transform.rotation = Quaternion.Euler(0, 0, rotation);
+		Quaternion quat = Quaternion.Euler(0, 0, rotation);
 
-		foreach (InteractLock il in lockPoints) {
-			BindInteractLock(il);
+		transform.rotation = quat;
+		Dictionary<Vector2, InteractLock> newCellBind = new();
+		foreach (Vector2 point in cellBind.Keys) {
+			Vector2 newPoint = RotatePoint90(point);
+			newCellBind.Add(newPoint, null);
+
+			Debug.Log(newPoint);
 		}
 
-		UpdateHovers();
+		cellBind = newCellBind;
+
+		HandleIndicators();
+	}
+
+	public Vector2 RotatePoint90(Vector2 point) {
+		return new Vector2(point.y, -point.x);
 	}
 
 	private void ToggleHover(InteractLock interactLock, bool flag) {
@@ -50,11 +87,7 @@ public class InventoryItem : Interactable {
 	public override void Dragging() {
 		base.Dragging();
 
-		foreach (InteractLock il in lockPoints) {
-			BindInteractLock(il);
-		}
-
-		UpdateHovers();
+		HandleIndicators();
 	}
 
 	public override void DragEnd() {
@@ -63,8 +96,12 @@ public class InventoryItem : Interactable {
 		base.HandleDrop();
 	}
 
-	private void UpdateHovers() {
-		// Update hovers
+	private void HandleIndicators() {
+		// O(n2)
+		foreach (InteractLock il in lockPoints) {
+			BindInteractLock(il);
+		}
+
 		foreach (InteractLock il in lockPoints) {
 			if (cellBind.Values.Contains(il)) {
 				ToggleHover(il, true);
@@ -76,26 +113,25 @@ public class InventoryItem : Interactable {
 	}
 
 	private void BindInteractLock(InteractLock interactLock) {
-		Transform closest_cell = GetClosestCell(interactLock.transform.position);
+		Vector2 closest_cell = GetClosestCell(interactLock.transform.position);
 		
 		// If there is nothing binding that cell, assign that
 		if (cellBind[closest_cell] == null) {
 			cellBind[closest_cell] = interactLock;
-
 		} 
 		
 		// If there is check which interact lock is the closest
 		else {
-			float current_dis = Vector2.Distance(closest_cell.position, cellBind[closest_cell].transform.position);
-			float incoming_dis = Vector2.Distance(closest_cell.position, interactLock.transform.position);
+			float current_dis = Vector2.Distance((Vector2)transform.position + closest_cell, cellBind[closest_cell].transform.position);
+			float incoming_dis = Vector2.Distance((Vector2)transform.position + closest_cell, interactLock.transform.position);
 
 			// If incoming interact lock is closer, replace
 			if (incoming_dis < current_dis) {
 
 				cellBind[closest_cell] = interactLock;
 
-				List<Transform> nullBind = new();
-				foreach (KeyValuePair<Transform, InteractLock> cell in cellBind) {
+				List<Vector2> nullBind = new();
+				foreach (KeyValuePair<Vector2, InteractLock> cell in cellBind) {
 					if (cell.Value == null || cell.Key == closest_cell) continue;
 					
 					if (cell.Value == interactLock) {
@@ -103,24 +139,30 @@ public class InventoryItem : Interactable {
 					}
 				}
 
-				foreach (Transform cell in nullBind) {
+				foreach (Vector2 cell in nullBind) {
 					cellBind[cell] = null;
 				}
 			}
 		}
 	}
 
-	private Transform GetClosestCell(Vector3 position) {
-		Transform closestCell = cells[0];
-		foreach (Transform cell in cells) {
+	private Vector2 GetClosestCell(Vector2 position) {
+		Vector2 closestCell = currentColliders[0].offset;
+		foreach (Vector2 cellPos in cellBind.Keys) {
 			// Get closest cell
-			float closest_dis = Vector2.Distance(closestCell.position, position);
-			float current_dis = Vector2.Distance(cell.position, position);
+			float closest_dis = Vector2.Distance((Vector2)transform.position + closestCell, position);
+			float current_dis = Vector2.Distance((Vector2)transform.position + cellPos, position);
 			if (current_dis < closest_dis)
-				closestCell = cell;
+				closestCell = cellPos;
 		}
 
 		return closestCell;
+	}
+
+	protected override void OnTriggerEnter2D(Collider2D collision) {
+		base.OnTriggerEnter2D(collision);
+
+		HandleIndicators();
 	}
 
 	protected override void OnTriggerExit2D(Collider2D collision) {
@@ -132,9 +174,9 @@ public class InventoryItem : Interactable {
 	}
 
 	private void OnDrawGizmosSelected() {
-		foreach (KeyValuePair<Transform, InteractLock> cell in cellBind) {
+		foreach (KeyValuePair<Vector2, InteractLock> cell in cellBind) {
 			if (cell.Value == null) continue;
-			Gizmos.DrawLine(cell.Key.position, cell.Value.transform.position);
+			Gizmos.DrawLine((Vector2)transform.position + cell.Key, cell.Value.transform.position);
 		}
 	}
 }

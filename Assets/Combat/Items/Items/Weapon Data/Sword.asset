@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc923926732db9746af49de1a30442d0, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
+  inventorySprite: {fileID: 0}
+  dropSprite: {fileID: 0}
+  boxColliderData: []
   projectiles:
-  - {fileID: 11400000, guid: 0b35a3af7b97d5e49bc7dd4cb94a5f5c, type: 2}
+  - {fileID: 0}
   rof: 1

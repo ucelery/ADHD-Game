@@ -37,7 +37,7 @@ public class InventoryInput : MonoBehaviour {
 	}
 	
 	public void OnMove_Drag(EnhancedTouch.Finger finger) {
-		Debug.Log($"[{finger.index}] Dragging");
+		// Debug.Log($"[{finger.index}] Dragging");
 
 		ChangeState(finger.index, InteractableState.Dragging);
 
