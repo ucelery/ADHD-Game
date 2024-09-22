@@ -47,6 +47,9 @@ public class InventoryInput : MonoBehaviour {
 			targetInteractable.DragStart();
 			targetInteractable.transform.position = new Vector2(move_pos.x, move_pos.y + .5f);
 		}
+
+		if (targetInteractable != null)
+			targetInteractable.Dragging();
 	}
 	
 	public void OnClick_Rotate(EnhancedTouch.Finger finger) {

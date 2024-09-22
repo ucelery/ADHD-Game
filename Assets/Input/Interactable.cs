@@ -15,7 +15,10 @@ public class Interactable : MonoBehaviour {
 		public UnityEvent OnClick;
 		public UnityEvent OnDragStart;
 		public UnityEvent OnDragEnd;
+		public UnityEvent OnDragging;
 	}
+
+	[Header("Interactable")]
 
 	[SerializeField]
 	private InteractableProperties interactableProperties;
@@ -25,7 +28,7 @@ public class Interactable : MonoBehaviour {
 
 	public InteractableProperties Props { get { return interactableProperties; } }
 
-	private List<InteractLock> lockPoints = new();
+	protected List<InteractLock> lockPoints = new();
 	private InteractLock currentInteractLock;
 	private Vector3 previousPosition;
 
@@ -41,26 +44,19 @@ public class Interactable : MonoBehaviour {
 		interactableEvents.OnDragStart.Invoke();
 	}
 
+	public virtual void Dragging() {
+		interactableEvents.OnDragging.Invoke();
+	}
+
 	public virtual void DragEnd() {
 		interactableEvents.OnDragEnd.Invoke();
 
 		HandleDrop();
 	}
 
-	private void HandleDrop() {
+	protected virtual void HandleDrop() {
 		// Drop
-		float closestDistance = Mathf.Infinity;
-		InteractLock closestPoint = null;
-		foreach (InteractLock lp in lockPoints) {
-
-			if (lp.IsOccupied()) continue;
-
-			float distance = Vector2.Distance(transform.position, lp.transform.position);
-			if (distance < closestDistance) {
-				closestDistance = distance;
-				closestPoint = lp;
-			}
-		}
+		InteractLock closestPoint = GetClosestLock(lockPoints, transform.position);
 
 		// Successful drag
 		if (closestPoint != null) {
@@ -72,6 +68,10 @@ public class Interactable : MonoBehaviour {
 			currentInteractLock = closestPoint;
 		}
 
+		InvalidDrop();
+	}
+
+	protected void InvalidDrop() {
 		// Reattach to previous InteractLock / position
 		if (currentInteractLock != null) {
 			currentInteractLock.Attach(this);
@@ -85,6 +85,23 @@ public class Interactable : MonoBehaviour {
 
 		previousPosition = il.GetSnapPoint();
 		transform.position = il.GetSnapPoint();
+	}
+
+	protected InteractLock GetClosestLock(List<InteractLock> locks, Vector3 position) {
+		float closestDistance = Mathf.Infinity;
+		InteractLock closestPoint = null;
+		foreach (InteractLock lp in locks) {
+
+			if (lp.IsOccupied()) continue;
+
+			float distance = Vector2.Distance(position, lp.transform.position);
+			if (distance < closestDistance) {
+				closestDistance = distance;
+				closestPoint = lp;
+			}
+		}
+
+		return closestPoint;
 	}
 
 	protected virtual void OnTriggerEnter2D(Collider2D collision) {
