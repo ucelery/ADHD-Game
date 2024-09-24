@@ -12,7 +12,7 @@ public class InventoryInput : MonoBehaviour {
 
 	private Dictionary<int, InteractableState> states = new();
 	private Vector2 startTapPos;
-	private InventoryItem targetInteractable;
+	private GridObject targetInteractable;
 
 	[SerializeField] private float dragThreshold = 0.1f;
 	[SerializeField] private LayerMask layerMask;
@@ -29,7 +29,7 @@ public class InventoryInput : MonoBehaviour {
 		Ray ray = mainCamera.ScreenPointToRay(finger.screenPosition);
 		RaycastHit2D raycast = Physics2D.GetRayIntersection(ray, Mathf.Infinity, layerMask);
 
-		targetInteractable = raycast.collider?.gameObject?.GetComponent<InventoryItem>();
+		targetInteractable = raycast.collider?.gameObject?.GetComponent<GridObject>();
 		startTapPos = mainCamera.ScreenToWorldPoint(finger.screenPosition);
 		if (!raycast.collider || targetInteractable == null) return;
 
