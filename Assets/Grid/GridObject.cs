@@ -26,14 +26,9 @@ public class GridObject : Interactable {
 	protected override void HandleDrop() {
 		List<Vector2Int> valid_cells = CanPlace();
 		if (valid_cells.Count >= cells.Length) {
-			Debug.Log("Handle Drop");
 			// Snap this Game Object on the center of the detected cells
-
 			Vector2 valid_cells_center = GetCenter(valid_cells) + (Vector2)grid.transform.position;
 			Vector2 cells_center = GetCenter(cells);
-
-			Debug.Log($"Center: {valid_cells_center}");
-			Debug.Log($"Cells Center: {cells_center}");
 
 			transform.position = valid_cells_center - cells_center;
 		} else {
@@ -81,7 +76,7 @@ public class GridObject : Interactable {
 	private Vector2 GetCenter(List<Vector2Int> valid_cells) {
 		if (valid_cells == null || valid_cells.Count == 0) {
 			Debug.LogWarning("valid_cells list is empty or null.");
-			return Vector2.zero; // Handle empty list scenario
+			return Vector2.zero;
 		}
 
 		int totalX = 0;
@@ -101,7 +96,7 @@ public class GridObject : Interactable {
 	private Vector2 GetCenter(Transform[] cells) {
 		if (cells == null || cells.Length == 0) {
 			Debug.LogWarning("cells list is empty or null.");
-			return Vector2.zero; // Handle empty list scenario
+			return Vector2.zero;
 		}
 
 		float totalX = 0;
