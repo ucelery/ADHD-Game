@@ -1,10 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.InputSystem.EnhancedTouch;
 using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch;
+using Utilities.Inventory;
 
 public class InventoryInput : MonoBehaviour {
 	private Camera mainCamera;
@@ -22,14 +19,23 @@ public class InventoryInput : MonoBehaviour {
 	}
 
 	public void OnClick_Select(EnhancedTouch.Finger finger) {
-		Debug.Log($"[{finger.index}] Click");
-
 		ChangeState(finger.index, InteractableState.Clicked);
 
 		Ray ray = mainCamera.ScreenPointToRay(finger.screenPosition);
 		RaycastHit2D raycast = Physics2D.GetRayIntersection(ray, Mathf.Infinity, layerMask);
 
 		targetInteractable = raycast.collider?.gameObject?.GetComponent<GridObject>();
+
+		if (targetInteractable != null) {
+			Debug.Log(targetInteractable.gameObject.name);
+		}
+
+		if (targetInteractable != null && 
+			(targetInteractable as InventoryItem).Item.type == ItemType.Backpack && 
+			(targetInteractable as InventoryItem).HasItemAbove()) {
+			targetInteractable = null;
+		}
+
 		startTapPos = mainCamera.ScreenToWorldPoint(finger.screenPosition);
 		if (!raycast.collider || targetInteractable == null) return;
 
@@ -39,17 +45,17 @@ public class InventoryInput : MonoBehaviour {
 	public void OnMove_Drag(EnhancedTouch.Finger finger) {
 		// Debug.Log($"[{finger.index}] Dragging");
 
-		ChangeState(finger.index, InteractableState.Dragging);
-
 		// Handle Dragging / Moving
 		Vector2 move_pos = mainCamera.ScreenToWorldPoint(finger.screenPosition);
-		if (Vector2.Distance(startTapPos, move_pos) > dragThreshold && targetInteractable != null) {
+		if (Vector2.Distance(startTapPos, move_pos) > dragThreshold && targetInteractable != null && states[finger.index] != InteractableState.Dragging) {
+			ChangeState(finger.index, InteractableState.Dragging);
 			targetInteractable.DragStart();
-			targetInteractable.transform.position = new Vector2(move_pos.x, move_pos.y + .5f);
 		}
 
-		if (targetInteractable != null)
+		if (targetInteractable != null && states[finger.index] == InteractableState.Dragging) {
+			targetInteractable.transform.position = new Vector2(move_pos.x, move_pos.y + .5f);
 			targetInteractable.Dragging();
+		}
 	}
 	
 	public void OnClick_Rotate(EnhancedTouch.Finger finger) {
@@ -59,18 +65,13 @@ public class InventoryInput : MonoBehaviour {
 			return;
 
 		ChangeState(finger.index, InteractableState.Clicked);
-
-		Debug.Log($"[{finger.index}] Rotate");
 		
 		targetInteractable.ToggleRotate();
 	}
 
 	public void OnRelease_Release(EnhancedTouch.Finger finger) {
-		Debug.Log($"[{finger.index}] Release");
-
 		if (states[finger.index] == InteractableState.Dragging && targetInteractable != null) {
 			targetInteractable.DragEnd();
-			Debug.Log("Drag End");
 		}
 
 		ChangeState(finger.index, InteractableState.Idle);

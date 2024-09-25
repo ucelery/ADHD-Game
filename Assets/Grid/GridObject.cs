@@ -2,17 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GridObject : Interactable {
-	[SerializeField] private GridManager grid;
-	[SerializeField] private Transform[] cells;
+	[SerializeField] protected GridManager grid;
+	[SerializeField] protected List<Transform> cells;
 
 	private float rotation = 0;
 
 	protected override void Start() {
 		base.Start();
-		Initialize(grid);
 	}
 
-	public void Initialize(GridManager grid) {
+	protected virtual void Initialize(GridManager grid) {
 		this.grid = grid;
 
 		foreach (Transform t in cells) {
@@ -25,15 +24,15 @@ public class GridObject : Interactable {
 
 	protected override void HandleDrop() {
 		List<Vector2Int> valid_cells = GetTouchingGridCells();
-		if (valid_cells.Count >= cells.Length && CanOccupy(valid_cells)) {
-			// Register the data
-			grid.OccupyCells(valid_cells, this);
-
+		if (valid_cells.Count >= cells.Count && CanOccupy(valid_cells)) {
 			// Snap this Game Object on the center of the detected cells
 			Vector2 valid_cells_center = GetCenter(valid_cells) + (Vector2)grid.transform.position;
 			Vector2 cells_center = GetCenter(cells);
 
 			transform.position = valid_cells_center - cells_center;
+
+			// Register the data and update Z Index
+			grid.OccupyCells(valid_cells, this);
 		} else {
 			Debug.Log("Invalid Drop");
 		}
@@ -48,6 +47,8 @@ public class GridObject : Interactable {
 	}
 
 	public override void DragStart() {
+		Debug.Log("Drag Start");
+
 		// Detach from the grid
 		List<Vector2Int> valid_cells = GetTouchingGridCells();
 		grid.VacateCells(valid_cells, this);
@@ -56,6 +57,8 @@ public class GridObject : Interactable {
 	}
 
 	public override void Dragging() {
+		Debug.Log("Dragging");
+
 		base.Dragging();
 	}
 
@@ -78,6 +81,21 @@ public class GridObject : Interactable {
 		Quaternion quat = Quaternion.Euler(0, 0, rotation);
 
 		transform.rotation = quat;
+	}
+
+	public bool HasItemAbove() {
+		foreach (Transform cell in cells) {
+			Vector2Int? cell_pos = grid.GetCellAtPosition(cell.position);
+			if (cell_pos == null) continue;
+
+			// If the current grid object's index is is greater than its count - 1 that means there is something above it
+			int object_index = grid.Cells[(Vector2Int)cell_pos].IndexOf(this);
+			Debug.Log($"{object_index} < {grid.Cells[(Vector2Int)cell_pos].Count - 1} = {object_index < grid.Cells[(Vector2Int)cell_pos].Count - 1}");
+			if (object_index < grid.Cells[(Vector2Int)cell_pos].Count - 1)
+				return true;
+		}
+
+		return false;
 	}
 
 	private List<Vector2Int> GetTouchingGridCells() {
@@ -112,8 +130,8 @@ public class GridObject : Interactable {
 		return new Vector2(centerX, centerY);
 	}
 
-	private Vector2 GetCenter(Transform[] cells) {
-		if (cells == null || cells.Length == 0) {
+	private Vector2 GetCenter(List<Transform> cells) {
+		if (cells == null || cells.Count == 0) {
 			Debug.LogWarning("cells list is empty or null.");
 			return Vector2.zero;
 		}
@@ -128,8 +146,8 @@ public class GridObject : Interactable {
 			totalY += relativePosition.y;
 		}
 
-		float centerX = totalX / cells.Length;
-		float centerY = totalY / cells.Length;
+		float centerX = totalX / cells.Count;
+		float centerY = totalY / cells.Count;
 
 		return new Vector2(centerX, centerY);
 	}

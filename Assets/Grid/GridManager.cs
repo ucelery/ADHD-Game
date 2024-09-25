@@ -28,8 +28,6 @@ public class GridManager : MonoBehaviour {
 			
 			Vector2Int position = new Vector2Int(x, y);
 			cells[position] = new List<GridObject>(); 
-
-			Debug.Log($"{x}, {y}");
 		}
 	}
 
@@ -51,15 +49,29 @@ public class GridManager : MonoBehaviour {
 	}
 
 	public void OccupyCells(List<Vector2Int> objectCells, GridObject gridObject) {
+		int highest_index = -1;
 		foreach (Vector2Int cell in objectCells) {
+			Debug.Log($"Adding {this} from {cell}");
+
 			cells[cell].Add(gridObject);
+
+			if (cells[cell].IndexOf(gridObject) > highest_index) {
+				highest_index = cells[cell].IndexOf(gridObject);
+			}
 		}
+
+		gridObject.transform.position += new Vector3(0, 0, -highest_index);
 	}
 
 	public void VacateCells(List<Vector2Int> objectCells, GridObject gridObject) {
 		foreach (Vector2Int cell in objectCells) {
+			Debug.Log($"Removing {this} from {cell}");
 			cells[cell].Remove(gridObject);
 		}
+	}
+
+	public int GetObjectIndexInCell(Vector2Int cell_position, GridObject object_to_check) {
+		return cells[cell_position].IndexOf(object_to_check);
 	}
 
 	private void OnDrawGizmos() {

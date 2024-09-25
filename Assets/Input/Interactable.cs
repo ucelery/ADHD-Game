@@ -106,7 +106,6 @@ public class Interactable : MonoBehaviour {
 
 	protected virtual void OnTriggerEnter2D(Collider2D collision) {
 		InteractLock il = collision.gameObject.GetComponent<InteractLock>();
-		Debug.Log($"Enter {il}");
 		if (il != null && !lockPoints.Contains(il)) {
 			lockPoints.Add(il);
 		}
@@ -114,7 +113,6 @@ public class Interactable : MonoBehaviour {
 
 	protected virtual void OnTriggerExit2D(Collider2D collision) {
 		InteractLock il = collision.gameObject.GetComponent<InteractLock>();
-		Debug.Log($"Exit {il}");
 		if (il != null && lockPoints.Contains(il)) {
 			lockPoints.Remove(il);
 		}
