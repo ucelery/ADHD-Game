@@ -24,8 +24,11 @@ public class GridObject : Interactable {
 	}
 
 	protected override void HandleDrop() {
-		List<Vector2Int> valid_cells = CanPlace();
-		if (valid_cells.Count >= cells.Length) {
+		List<Vector2Int> valid_cells = GetTouchingGridCells();
+		if (valid_cells.Count >= cells.Length && CanOccupy(valid_cells)) {
+			// Register the data
+			grid.OccupyCells(valid_cells, this);
+
 			// Snap this Game Object on the center of the detected cells
 			Vector2 valid_cells_center = GetCenter(valid_cells) + (Vector2)grid.transform.position;
 			Vector2 cells_center = GetCenter(cells);
@@ -34,6 +37,22 @@ public class GridObject : Interactable {
 		} else {
 			Debug.Log("Invalid Drop");
 		}
+	}
+
+	protected virtual bool CanOccupy(List<Vector2Int> cells_to_occupy) {
+		foreach (Vector2Int cell in cells_to_occupy) {
+			if (grid.Cells[cell].Count > 0) return false;
+		}
+
+		return true;
+	}
+
+	public override void DragStart() {
+		// Detach from the grid
+		List<Vector2Int> valid_cells = GetTouchingGridCells();
+		grid.VacateCells(valid_cells, this);
+
+		base.DragStart();
 	}
 
 	public override void Dragging() {
@@ -61,7 +80,7 @@ public class GridObject : Interactable {
 		transform.rotation = quat;
 	}
 
-	private List<Vector2Int> CanPlace() {
+	private List<Vector2Int> GetTouchingGridCells() {
 		List<Vector2Int> in_cells = new();
 		foreach (Transform cell in cells) {
 			Vector2Int? is_in_cell = grid.GetCellAtPosition(cell.position);

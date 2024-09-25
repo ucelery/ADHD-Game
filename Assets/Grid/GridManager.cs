@@ -10,20 +10,13 @@ public class GridManager : MonoBehaviour {
 	[SerializeField] private Vector2 cellSize = Vector2.one;
 	[SerializeField] private Vector2Int gridSize;
 
-	private Dictionary<Vector2Int, ItemData> cells = new();
+	private Dictionary<Vector2Int, List<GridObject>> cells = new();
+	public Dictionary<Vector2Int, List<GridObject>> Cells { get { return cells; } }
 
 	public Vector2 CellSize { get { return cellSize; } }
 
 	private void Start() {
 		InitializeCells(gridSize);
-	}
-
-	private void Update() {
-		// Check if point is in cell
-		//Vector2Int? cell = GetCellAtPosition(test_point.position);
-		//if (cell != null) {
-		//	Debug.Log($"Pos is in cell {cell}");
-		//}
 	}
 
 	private void InitializeCells(Vector2Int grid_size) {
@@ -34,7 +27,7 @@ public class GridManager : MonoBehaviour {
 			int y = i / grid_size.x;    
 			
 			Vector2Int position = new Vector2Int(x, y);
-			cells[position] = null; 
+			cells[position] = new List<GridObject>(); 
 
 			Debug.Log($"{x}, {y}");
 		}
@@ -55,6 +48,18 @@ public class GridManager : MonoBehaviour {
 		}
 
 		return null;
+	}
+
+	public void OccupyCells(List<Vector2Int> objectCells, GridObject gridObject) {
+		foreach (Vector2Int cell in objectCells) {
+			cells[cell].Add(gridObject);
+		}
+	}
+
+	public void VacateCells(List<Vector2Int> objectCells, GridObject gridObject) {
+		foreach (Vector2Int cell in objectCells) {
+			cells[cell].Remove(gridObject);
+		}
 	}
 
 	private void OnDrawGizmos() {
