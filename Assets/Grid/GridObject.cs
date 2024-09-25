@@ -35,7 +35,7 @@ public class GridObject : Interactable {
 			Debug.Log($"Center: {valid_cells_center}");
 			Debug.Log($"Cells Center: {cells_center}");
 
-			transform.position = valid_cells_center;
+			transform.position = valid_cells_center - cells_center;
 		} else {
 			Debug.Log("Invalid Drop");
 		}
@@ -108,8 +108,10 @@ public class GridObject : Interactable {
 		float totalY = 0;
 
 		foreach (Transform cell in cells) {
-			totalX += cell.localPosition.x;
-			totalY += cell.localPosition.y;
+			Vector3 relativePosition = cell.position - transform.position;
+
+			totalX += relativePosition.x;
+			totalY += relativePosition.y;
 		}
 
 		float centerX = totalX / cells.Length;
