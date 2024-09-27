@@ -76,20 +76,10 @@ public class UIGridObject : UIInteractable {
 	public override void OnEndDrag(PointerEventData eventData) {
 		List<RectTransform> valid_cells = GetTouchingGridCells();
 
-		string str = string.Empty;
-		foreach (RectTransform cell in valid_cells) {
-			str += $"{cell.anchoredPosition}, ";
-		}
-
-		Debug.Log($"Valid Cells: {str}");
-
 		if (valid_cells.Count >= cells.Count && CanOccupy(valid_cells)) {
 			// Snap this Game Object on the center of the detected cells
 			Vector2 valid_cells_center = grid.GetCenter(valid_cells);
 			Vector2 cells_center = grid.GetCenter(cells);
-
-			Debug.Log($"Valid Center: {valid_cells_center}");
-			Debug.Log($"Cells Center: {cells_center}");
 
 			rectTransform.anchoredPosition = valid_cells_center - cells_center + grid.GridContainer.anchoredPosition;
 
@@ -116,13 +106,9 @@ public class UIGridObject : UIInteractable {
 		//		break;
 		//}
 
-		PrintCells(cells);
-
 		//Quaternion quat = Quaternion.Euler(0, 0, rotation);
 
 		//transform.rotation = quat;
-
-		PrintCells(cells);
 
 		// Rotate Cells
 		foreach (RectTransform cell in cells) {
