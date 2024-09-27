@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Utilities.UIGrid;
+using static UnityEditor.PlayerSettings;
 
 /// <summary>
 /// General Grid Generator
@@ -15,11 +17,12 @@ public class UIGridManager : MonoBehaviour {
 	[SerializeField] private RectTransform objectsContainer;
 
 	private Dictionary<Vector2Int, List<UIGridObject>> cells = new();
+	private RectTransform rectTransform;
+
 	public Dictionary<Vector2Int, List<UIGridObject>> Cells { get { return cells; } }
+	public RectTransform RectTransform { get { return rectTransform; } }
 
 	public Vector2 CellSize { get { return cellSize; } }
-
-	private RectTransform rectTransform;
 
 	private void Awake() {
 		rectTransform = GetComponent<RectTransform>();
@@ -45,15 +48,17 @@ public class UIGridManager : MonoBehaviour {
 		}
 	}
 
-	public Vector2Int? GetCellAtPosition(Vector2 pos) {
+	public Vector2Int? GetCellAtPosition(RectTransform cell_pos) {
 		foreach (Vector2Int cell in cells.Keys) {
+			Vector2 pos = UIGridUtility.GetGridPosition(cell_pos, rectTransform);
+
 			Vector2 final_cell_pos = cell * cellSize;
 
 			float x_cell_size = (cellSize.x / 2);
 			float y_cell_size = (cellSize.y / 2);
 
-			// Debug.Log($"[{pos}] ({(final_cell_pos.x - x_cell_size)}, {(final_cell_pos.y + y_cell_size)})");
-			// Debug.Log($"[{pos}] ({(final_cell_pos.x)}, {(final_cell_pos.y)})");
+			//Debug.Log($"[{pos}] ({(final_cell_pos.x - x_cell_size)}, {(final_cell_pos.y + y_cell_size)})");
+			//Debug.Log($"[{pos}] ({(final_cell_pos.x)}, {(final_cell_pos.y)})");
 
 			bool is_within_x = pos.x > (final_cell_pos.x - x_cell_size) && pos.x < (final_cell_pos.x + x_cell_size);
 			bool is_within_y = pos.y > (final_cell_pos.y - y_cell_size) && pos.y < (final_cell_pos.y + y_cell_size);

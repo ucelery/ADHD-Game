@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.EnhancedTouch;
 using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch;
-
+using Utilities.UIGrid;
 
 public class UIGridObject : UIInteractable {
 	[SerializeField] protected UIGridManager grid;
@@ -83,9 +83,10 @@ public class UIGridObject : UIInteractable {
 			str += $"{cell}, ";
 		}
 
-		Debug.Log($"Valid Cells: {str}");
+		// Debug.Log($"Valid Cells: {str}");
 
 		if (valid_cells.Count >= cells.Count && CanOccupy(valid_cells)) {
+			Debug.Log("Valid Drop");
 			// Snap this Game Object on the center of the detected cells
 			Vector2 valid_cells_center = grid.GetCenter(valid_cells);
 			// Debug.Log($"Valid Cells Center: {valid_cells_center}");
@@ -116,14 +117,18 @@ public class UIGridObject : UIInteractable {
 				break;
 		}
 
+		// PrintCells(cells);
+
 		Quaternion quat = Quaternion.Euler(0, 0, rotation);
 
 		transform.rotation = quat;
+
+		// PrintCells(cells);
 	}
 
 	public bool HasItemAbove() {
 		foreach (RectTransform cell in cells) {
-			Vector2Int? cell_pos = grid.GetCellAtPosition(cell.anchoredPosition + rectTransform.anchoredPosition);
+			Vector2Int? cell_pos = grid.GetCellAtPosition(cell);
 			if (cell_pos == null) continue;
 
 			// If the current grid object's index is is greater than its count - 1 that means there is something above it
@@ -138,7 +143,7 @@ public class UIGridObject : UIInteractable {
 	private List<Vector2Int> GetTouchingGridCells() {
 		List<Vector2Int> in_cells = new();
 		foreach (RectTransform cell in cells) {
-			Vector2Int? is_in_cell = grid.GetCellAtPosition(cell.anchoredPosition + rectTransform.anchoredPosition);
+			Vector2Int? is_in_cell = grid.GetCellAtPosition(cell);
 			if (is_in_cell != null) {
 				in_cells.Add((Vector2Int)is_in_cell);
 			}
@@ -147,22 +152,12 @@ public class UIGridObject : UIInteractable {
 		return in_cells;
 	}
 
-	private Vector2 GetGridPosition(RectTransform child, RectTransform gridManager) {
-		// Get the world position of the child RectTransform
-		Vector3 childWorldPosition = child.position;
-
-		// Convert the world position to the grandparent's local space
-		Vector3 relativePosition = gridManager.InverseTransformPoint(childWorldPosition);
-
-		return new Vector2(relativePosition.x, relativePosition.y);
-	}
-
 	private void PrintCells(List<RectTransform> cells) {
 		string str = string.Empty;
 		foreach (RectTransform cell in cells) {
-			str += $"{cell.localPosition}, ";
+			str += $"{UIGridUtility.GetGridPosition(cell, grid.RectTransform)}, ";
 		}
 
-		Debug.Log($"Valid Cells: {str}");
+		Debug.Log($"Cells: {str}");
 	}
 }
