@@ -867,7 +867,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cell_prefab: {fileID: 6098303306948266279, guid: 57280db31ca85c14ba6897f870c7fa0f, type: 3}
   cellSize: {x: 100, y: 100}
-  gridSize: {x: 3, y: 3}
+  gridSize: {x: 8, y: 6}
   gridContainer: {fileID: 1942412781}
   objectsContainer: {fileID: 1383200419}
 --- !u!1 &2131441067
