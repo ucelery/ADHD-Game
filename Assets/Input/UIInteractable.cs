@@ -19,21 +19,13 @@ public class UIInteractable : MonoBehaviour, IPointerDownHandler, IBeginDragHand
 		canvas = GetComponentInParent<Canvas>();
 	}
 
-	public virtual void OnBeginDrag(PointerEventData eventData) {
-		throw new System.NotImplementedException();
-	}
+	public virtual void OnBeginDrag(PointerEventData eventData) { }
 
 	public virtual void OnDrag(PointerEventData eventData) {
 		rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
-
-		Debug.Log("Test");
 	}
 
-	public virtual void OnEndDrag(PointerEventData eventData) {
+	public virtual void OnEndDrag(PointerEventData eventData) { }
 
-	}
-
-	public virtual void OnPointerDown(PointerEventData eventData) {
-		
-	}
+	public virtual void OnPointerDown(PointerEventData eventData) { }
 }

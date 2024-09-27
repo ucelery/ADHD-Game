@@ -11,5 +11,13 @@ namespace Utilities.UIGrid {
 
 			return new Vector2(relativePosition.x, relativePosition.y);
 		}
+
+		public static Vector2 GetGridPosition(Vector2 child, RectTransform gridManager) {
+			Vector3 childWorldPosition = child;
+
+			Vector3 relativePosition = gridManager.InverseTransformPoint(childWorldPosition);
+
+			return new Vector2(relativePosition.x, relativePosition.y);
+		}
 	}
 }

@@ -51,8 +51,8 @@ public class UIGridObject : UIInteractable {
 		}
 	}
 
-	protected virtual bool CanOccupy(List<Vector2Int> cells_to_occupy) {
-		foreach (Vector2Int cell in cells_to_occupy) {
+	protected virtual bool CanOccupy(List<RectTransform> cells_to_occupy) {
+		foreach (RectTransform cell in cells_to_occupy) {
 			if (grid.Cells[cell].Count > 0) return false;
 		}
 
@@ -70,20 +70,18 @@ public class UIGridObject : UIInteractable {
 	}
 
 	public override void OnDrag(PointerEventData eventData) {
-		Debug.Log("Dragging");
-
 		base.OnDrag(eventData);
 	}
 
 	public override void OnEndDrag(PointerEventData eventData) {
-		List<Vector2Int> valid_cells = GetTouchingGridCells();
+		List<RectTransform> valid_cells = GetTouchingGridCells();
 
 		string str = string.Empty;
-		foreach (Vector2Int cell in valid_cells) {
-			str += $"{cell}, ";
+		foreach (RectTransform cell in valid_cells) {
+			str += $"{cell.anchoredPosition}, ";
 		}
 
-		// Debug.Log($"Valid Cells: {str}");
+		Debug.Log($"Valid Cells: {str}");
 
 		if (valid_cells.Count >= cells.Count && CanOccupy(valid_cells)) {
 			// Snap this Game Object on the center of the detected cells
@@ -93,7 +91,7 @@ public class UIGridObject : UIInteractable {
 			Debug.Log($"Valid Center: {valid_cells_center}");
 			Debug.Log($"Cells Center: {cells_center}");
 
-			rectTransform.anchoredPosition = valid_cells_center - cells_center;
+			rectTransform.anchoredPosition = valid_cells_center - cells_center + grid.GridContainer.anchoredPosition;
 
 			//// Register the data and update Z Index
 			// grid.OccupyCells(valid_cells, this);
@@ -136,24 +134,24 @@ public class UIGridObject : UIInteractable {
 
 	public bool HasItemAbove() {
 		foreach (RectTransform cell in cells) {
-			Vector2Int? cell_pos = grid.GetCellAtPosition(cell);
+			RectTransform cell_pos = grid.GetCellAtPosition(cell);
 			if (cell_pos == null) continue;
 
 			// If the current grid object's index is is greater than its count - 1 that means there is something above it
-			int object_index = grid.Cells[(Vector2Int)cell_pos].IndexOf(this);
-			if (object_index < grid.Cells[(Vector2Int)cell_pos].Count - 1)
+			int object_index = grid.Cells[cell_pos].IndexOf(this);
+			if (object_index < grid.Cells[cell_pos].Count - 1)
 				return true;
 		}
 
 		return false;
 	}
 
-	private List<Vector2Int> GetTouchingGridCells() {
-		List<Vector2Int> in_cells = new();
+	private List<RectTransform> GetTouchingGridCells() {
+		List<RectTransform> in_cells = new();
 		foreach (RectTransform cell in cells) {
-			Vector2Int? is_in_cell = grid.GetCellAtPosition(cell);
+			RectTransform? is_in_cell = grid.GetCellAtPosition(cell);
 			if (is_in_cell != null) {
-				in_cells.Add((Vector2Int)is_in_cell);
+				in_cells.Add(is_in_cell);
 			}
 		}
 

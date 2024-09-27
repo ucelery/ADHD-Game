@@ -16,11 +16,12 @@ public class UIGridManager : MonoBehaviour {
 	[SerializeField] private RectTransform gridContainer;
 	[SerializeField] private RectTransform objectsContainer;
 
-	private Dictionary<Vector2Int, List<UIGridObject>> cells = new();
+	private Dictionary<RectTransform, List<UIGridObject>> cells = new();
 	private RectTransform rectTransform;
 
-	public Dictionary<Vector2Int, List<UIGridObject>> Cells { get { return cells; } }
+	public Dictionary<RectTransform, List<UIGridObject>> Cells { get { return cells; } }
 	public RectTransform RectTransform { get { return rectTransform; } }
+	public RectTransform GridContainer { get { return gridContainer; } }
 
 	public Vector2 CellSize { get { return cellSize; } }
 
@@ -40,19 +41,18 @@ public class UIGridManager : MonoBehaviour {
 			int y = i / grid_size.x;
 
 			Vector2Int position = new Vector2Int(x, y);
-			cells[position] = new List<UIGridObject>();
-
 			RectTransform new_cell = Instantiate(cell_prefab, gridContainer);
 			new_cell.sizeDelta = cellSize;
 			new_cell.anchoredPosition = position * cellSize;
+
+			cells[new_cell] = new List<UIGridObject>();
 		}
 	}
 
-	public Vector2Int? GetCellAtPosition(RectTransform cell_pos) {
-		foreach (Vector2Int cell in cells.Keys) {
-			Vector2 pos = UIGridUtility.GetGridPosition(cell_pos, rectTransform);
-
-			Vector2 final_cell_pos = cell * cellSize;
+	public RectTransform GetCellAtPosition(RectTransform check_cell) {
+		foreach (RectTransform cell in cells.Keys) {
+			Vector2 check_cell_pos = UIGridUtility.GetGridPosition(check_cell, rectTransform);
+			Vector2 final_cell_pos = UIGridUtility.GetGridPosition(cell, rectTransform);
 
 			float x_cell_size = (cellSize.x / 2);
 			float y_cell_size = (cellSize.y / 2);
@@ -60,8 +60,8 @@ public class UIGridManager : MonoBehaviour {
 			//Debug.Log($"[{pos}] ({(final_cell_pos.x - x_cell_size)}, {(final_cell_pos.y + y_cell_size)})");
 			//Debug.Log($"[{pos}] ({(final_cell_pos.x)}, {(final_cell_pos.y)})");
 
-			bool is_within_x = pos.x > (final_cell_pos.x - x_cell_size) && pos.x < (final_cell_pos.x + x_cell_size);
-			bool is_within_y = pos.y > (final_cell_pos.y - y_cell_size) && pos.y < (final_cell_pos.y + y_cell_size);
+			bool is_within_x = check_cell_pos.x > (final_cell_pos.x - x_cell_size) && check_cell_pos.x < (final_cell_pos.x + x_cell_size);
+			bool is_within_y = check_cell_pos.y > (final_cell_pos.y - y_cell_size) && check_cell_pos.y < (final_cell_pos.y + y_cell_size);
 			if (is_within_x & is_within_y) {
 				return cell;
 			}
@@ -70,9 +70,9 @@ public class UIGridManager : MonoBehaviour {
 		return null;
 	}
 
-	public void OccupyCells(List<Vector2Int> objectCells, UIGridObject gridObject) {
+	public void OccupyCells(List<RectTransform> objectCells, UIGridObject gridObject) {
 		int highest_index = -1;
-		foreach (Vector2Int cell in objectCells) {
+		foreach (RectTransform cell in objectCells) {
 			Debug.Log($"Adding {this} from {cell}");
 
 			cells[cell].Add(gridObject);
@@ -85,14 +85,14 @@ public class UIGridManager : MonoBehaviour {
 		gridObject.transform.position += new Vector3(0, 0, -highest_index);
 	}
 
-	public void VacateCells(List<Vector2Int> objectCells, UIGridObject gridObject) {
-		foreach (Vector2Int cell in objectCells) {
+	public void VacateCells(List<RectTransform> objectCells, UIGridObject gridObject) {
+		foreach (RectTransform cell in objectCells) {
 			Debug.Log($"Removing {this} from {cell}");
 			cells[cell].Remove(gridObject);
 		}
 	}
 
-	public int GetObjectIndexInCell(Vector2Int cell_position, UIGridObject object_to_check) {
+	public int GetObjectIndexInCell(RectTransform cell_position, UIGridObject object_to_check) {
 		return cells[cell_position].IndexOf(object_to_check);
 	}
 
@@ -103,40 +103,6 @@ public class UIGridManager : MonoBehaviour {
 		}
 
 		return str;
-	}
-
-	public Vector2 GetCenter(List<Vector2Int> valid_cells) {
-		if (valid_cells == null || valid_cells.Count == 0) {
-			Debug.LogWarning("valid_cells list is empty or null.");
-			return Vector2.zero;
-		}
-
-		// Get Top, Bot, Left Right points
-		float up = float.NegativeInfinity;
-		float down = float.PositiveInfinity;
-		float right = float.NegativeInfinity;
-		float left = float.PositiveInfinity;
-
-		foreach (Vector2Int cell in valid_cells) {
-			if (cell.x > right)
-				right = cell.x;
-
-			if (cell.y > up)
-				up = cell.y;
-
-			if (cell.x < left)
-				left = cell.x;
-
-			if (cell.y < down)
-				down = cell.y;
-		}
-
-		Debug.Log($"Top Right: ({right}, {up}); Bottom Left: ({left}, {down})");
-
-		float centerX = (right + left) / 2;
-		float centerY = (up + down) / 2;
-
-		return new Vector2(centerX, centerY) * cellSize;
 	}
 
 	public Vector2 GetCenter(List<RectTransform> cells) {
