@@ -86,13 +86,14 @@ public class UIGridObject : UIInteractable {
 		// Debug.Log($"Valid Cells: {str}");
 
 		if (valid_cells.Count >= cells.Count && CanOccupy(valid_cells)) {
-			Debug.Log("Valid Drop");
 			// Snap this Game Object on the center of the detected cells
 			Vector2 valid_cells_center = grid.GetCenter(valid_cells);
-			// Debug.Log($"Valid Cells Center: {valid_cells_center}");
-			// Vector2 cells_center = grid.GetCenter(cells);
+			Vector2 cells_center = grid.GetCenter(cells);
 
-			// rectTransform.anchoredPosition = valid_cells_center - cells_center;
+			Debug.Log($"Valid Center: {valid_cells_center}");
+			Debug.Log($"Cells Center: {cells_center}");
+
+			rectTransform.anchoredPosition = valid_cells_center - cells_center;
 
 			//// Register the data and update Z Index
 			// grid.OccupyCells(valid_cells, this);
@@ -102,28 +103,35 @@ public class UIGridObject : UIInteractable {
 	}
 
 	public void ToggleRotate() {
-		switch (rotation) {
-			case 0f:
-				rotation = 270f;
-				break;
-			case 270f:
-				rotation = 180f;
-				break;
-			case 180f:
-				rotation = 90f;
-				break;
-			case 90f:
-				rotation = 0f;
-				break;
+		//switch (rotation) {
+		//	case 0f:
+		//		rotation = 270f;
+		//		break;
+		//	case 270f:
+		//		rotation = 180f;
+		//		break;
+		//	case 180f:
+		//		rotation = 90f;
+		//		break;
+		//	case 90f:
+		//		rotation = 0f;
+		//		break;
+		//}
+
+		PrintCells(cells);
+
+		//Quaternion quat = Quaternion.Euler(0, 0, rotation);
+
+		//transform.rotation = quat;
+
+		PrintCells(cells);
+
+		// Rotate Cells
+		foreach (RectTransform cell in cells) {
+			cell.anchoredPosition = new Vector2(cell.anchoredPosition.y, -cell.anchoredPosition.x);
 		}
 
-		// PrintCells(cells);
-
-		Quaternion quat = Quaternion.Euler(0, 0, rotation);
-
-		transform.rotation = quat;
-
-		// PrintCells(cells);
+		PrintCells(cells);
 	}
 
 	public bool HasItemAbove() {
@@ -155,7 +163,7 @@ public class UIGridObject : UIInteractable {
 	private void PrintCells(List<RectTransform> cells) {
 		string str = string.Empty;
 		foreach (RectTransform cell in cells) {
-			str += $"{UIGridUtility.GetGridPosition(cell, grid.RectTransform)}, ";
+			str += $"{cell.anchoredPosition}, ";
 		}
 
 		Debug.Log($"Cells: {str}");

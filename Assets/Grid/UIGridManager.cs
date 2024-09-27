@@ -145,18 +145,32 @@ public class UIGridManager : MonoBehaviour {
 			return Vector2.zero;
 		}
 
-		float totalX = 0;
-		float totalY = 0;
+		// Get Top, Bot, Left Right points
+		float up = float.NegativeInfinity;
+		float down = float.PositiveInfinity;
+		float right = float.NegativeInfinity;
+		float left = float.PositiveInfinity;
 
 		foreach (RectTransform cell in cells) {
-			Vector3 relativePosition = cell.anchoredPosition;
+			Vector2 cell_pos = cell.anchoredPosition;
 
-			totalX += relativePosition.x;
-			totalY += relativePosition.y;
+			if (cell_pos.x > right)
+				right = cell_pos.x;
+
+			if (cell_pos.y > up)
+				up = cell_pos.y;
+
+			if (cell_pos.x < left)
+				left = cell_pos.x;
+
+			if (cell_pos.y < down)
+				down = cell_pos.y;
 		}
 
-		float centerX = totalX / cells.Count;
-		float centerY = totalY / cells.Count;
+		Debug.Log($"Top Right: ({right}, {up}); Bottom Left: ({left}, {down})");
+
+		float centerX = (right + left) / 2;
+		float centerY = (up + down) / 2;
 
 		return new Vector2(centerX, centerY);
 	}
