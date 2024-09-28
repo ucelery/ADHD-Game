@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcd9257a66bf5c14fb8eb04b463a5ec1, type: 3}
+  m_Name: 2x2 Backpack
+  m_EditorClassIdentifier: 
+  InventoryProperties:
+    itemName: Adventurer's Pack
+    itemDescription: A backpack good for intermediate adventurers in need of storage
+    inventorySprite: {fileID: -87519279, guid: c684c189e762942489eb92c57538cdc1, type: 3}
+    dropSprite: {fileID: 0}
+    boxColliderData:
+    - offset: {x: 0, y: 0}
+      size: {x: 1, y: 1}
+    - offset: {x: 1, y: 0}
+      size: {x: 1, y: 1}
+    - offset: {x: 0, y: 1}
+      size: {x: 1, y: 1}
+    - offset: {x: 1, y: 1}
+      size: {x: 1, y: 1}
+    cellFilter: 0
+    rotation: 0
+  type: 2

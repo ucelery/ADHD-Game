@@ -11,6 +11,7 @@ public class InventoryItem : UIGridObject {
 	[Header("UI Elements")]
 	[SerializeField] private RectTransform spriteHolder;
 	[SerializeField] private RectTransform itemSprite;
+	[SerializeField] private Transform cellsContainer;
 
 	private float rotation = 0;
 
@@ -18,7 +19,7 @@ public class InventoryItem : UIGridObject {
 
 	protected override void Initialize(UIGridManager grid) {
 		foreach (BoxComponent col in item.InventoryProperties.boxColliderData) {
-			GameObject new_ui_element = Instantiate(inventoryCellPrefab, transform);
+			GameObject new_ui_element = Instantiate(inventoryCellPrefab, cellsContainer);
 			RectTransform rect = new_ui_element.GetComponent<RectTransform>();
 			rect.anchoredPosition = col.offset * grid.CellSize;
 			rect.sizeDelta = grid.CellSize;

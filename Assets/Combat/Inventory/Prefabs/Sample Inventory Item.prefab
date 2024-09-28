@@ -65,6 +65,7 @@ MonoBehaviour:
   inventoryCellPrefab: {fileID: 7707866849454246776, guid: 32dedc32b5147f54fbfb47f8c144b56e, type: 3}
   spriteHolder: {fileID: 5195894297254022698}
   itemSprite: {fileID: 3131297635601063754}
+  cellsContainer: {fileID: 8344348010257800765}
 --- !u!1 &2285600821886646676
 GameObject:
   m_ObjectHideFlags: 0
