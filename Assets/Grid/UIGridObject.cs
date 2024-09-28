@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.EnhancedTouch;
 using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch;
 using Utilities.UIGrid;
 
@@ -10,13 +8,12 @@ public class UIGridObject : UIInteractable {
 	[SerializeField] protected UIGridManager grid;
 	[SerializeField] protected List<RectTransform> cells;
 
+	private GridObjectStates state = GridObjectStates.Idle;
 	private float rotation = 0;
 
 	private void OnEnable() {
 		EnhancedTouch.TouchSimulation.Enable();
 		EnhancedTouch.EnhancedTouchSupport.Enable();
-
-
 	}
 
 	private void OnDisable() {
@@ -26,6 +23,9 @@ public class UIGridObject : UIInteractable {
 
 	private void Start() {
 		EnhancedTouch.Touch.onFingerDown += OnInput_Press;
+
+		// For Testing
+		Initialize(grid);
 	}
 
 	public void OnInput_Press(EnhancedTouch.Finger finger) {
@@ -35,20 +35,14 @@ public class UIGridObject : UIInteractable {
 				break;
 			case 1:
 				// Second Finger
-				ToggleRotate();
+				if (state == GridObjectStates.Dragging)
+					ToggleRotate();
 				break;
 		}
 	}
 
 	protected virtual void Initialize(UIGridManager grid) {
 		this.grid = grid;
-
-		foreach (RectTransform t in cells) {
-			BoxCollider2D collider = gameObject.AddComponent<BoxCollider2D>();
-			collider.offset = t.localPosition;
-			collider.size = grid.CellSize;
-			collider.usedByComposite = true;
-		}
 	}
 
 	protected virtual bool CanOccupy(List<RectTransform> cells_to_occupy) {
@@ -62,9 +56,14 @@ public class UIGridObject : UIInteractable {
 	public override void OnBeginDrag(PointerEventData eventData) {
 		Debug.Log("Drag Start");
 
+		state = GridObjectStates.Dragging;
+
 		// Detach from the grid
-		//List<Vector2Int> valid_cells = GetTouchingGridCells();
-		//grid.VacateCells(valid_cells, this);
+		List<RectTransform> valid_cells = GetTouchingGridCells();
+		grid.VacateCells(valid_cells, this);
+
+		// Place this object on the top
+		transform.SetSiblingIndex(transform.parent.childCount - 1);
 
 		base.OnBeginDrag(eventData);
 	}
@@ -76,6 +75,8 @@ public class UIGridObject : UIInteractable {
 	public override void OnEndDrag(PointerEventData eventData) {
 		List<RectTransform> valid_cells = GetTouchingGridCells();
 
+		state = GridObjectStates.Idle;
+
 		if (valid_cells.Count >= cells.Count && CanOccupy(valid_cells)) {
 			// Snap this Game Object on the center of the detected cells
 			Vector2 valid_cells_center = grid.GetCenter(valid_cells);
@@ -83,8 +84,8 @@ public class UIGridObject : UIInteractable {
 
 			rectTransform.anchoredPosition = valid_cells_center - cells_center + grid.GridContainer.anchoredPosition;
 
-			//// Register the data and update Z Index
-			// grid.OccupyCells(valid_cells, this);
+			// Register the data to the cells
+			grid.OccupyCells(valid_cells, this);
 		} else {
 			Debug.Log("Invalid Drop");
 		}
@@ -114,8 +115,6 @@ public class UIGridObject : UIInteractable {
 		foreach (RectTransform cell in cells) {
 			cell.anchoredPosition = new Vector2(cell.anchoredPosition.y, -cell.anchoredPosition.x);
 		}
-
-		PrintCells(cells);
 	}
 
 	public bool HasItemAbove() {

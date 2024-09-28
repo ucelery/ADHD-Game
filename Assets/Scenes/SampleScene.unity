@@ -1176,7 +1176,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1995591541}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.48407882
+  m_Size: 0.48407876
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1794,6 +1794,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1383200419}
     m_Modifications:
+    - target: {fileID: 707683016363187110, guid: 6f0f5b81fe34bc845b514d61bc3acb8f, type: 3}
+      propertyPath: grid
+      value: 
+      objectReference: {fileID: 2119925597}
+    - target: {fileID: 707683016363187110, guid: 6f0f5b81fe34bc845b514d61bc3acb8f, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 11400000, guid: eb567348e76075c42bc30cd5e1d2463d, type: 2}
     - target: {fileID: 1587054159273255670, guid: 6f0f5b81fe34bc845b514d61bc3acb8f, type: 3}
       propertyPath: m_Name
       value: Sample Inventory Item

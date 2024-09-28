@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using Utilities.UIGrid;
-using static UnityEditor.PlayerSettings;
 
 /// <summary>
 /// General Grid Generator
@@ -57,9 +55,6 @@ public class UIGridManager : MonoBehaviour {
 			float x_cell_size = (cellSize.x / 2);
 			float y_cell_size = (cellSize.y / 2);
 
-			//Debug.Log($"[{pos}] ({(final_cell_pos.x - x_cell_size)}, {(final_cell_pos.y + y_cell_size)})");
-			//Debug.Log($"[{pos}] ({(final_cell_pos.x)}, {(final_cell_pos.y)})");
-
 			bool is_within_x = check_cell_pos.x > (final_cell_pos.x - x_cell_size) && check_cell_pos.x < (final_cell_pos.x + x_cell_size);
 			bool is_within_y = check_cell_pos.y > (final_cell_pos.y - y_cell_size) && check_cell_pos.y < (final_cell_pos.y + y_cell_size);
 			if (is_within_x & is_within_y) {
@@ -70,39 +65,24 @@ public class UIGridManager : MonoBehaviour {
 		return null;
 	}
 
-	public void OccupyCells(List<RectTransform> objectCells, UIGridObject gridObject) {
-		int highest_index = -1;
-		foreach (RectTransform cell in objectCells) {
-			Debug.Log($"Adding {this} from {cell}");
-
-			cells[cell].Add(gridObject);
-
-			if (cells[cell].IndexOf(gridObject) > highest_index) {
-				highest_index = cells[cell].IndexOf(gridObject);
-			}
+	public void OccupyCells(List<RectTransform> grid_cells, UIGridObject grid_object) {
+		string cells_str = string.Empty;
+		foreach (RectTransform cell in grid_cells) {
+			cells_str += $"{cell.anchoredPosition} ";
+			cells[cell].Add(grid_object);
 		}
 
-		gridObject.transform.position += new Vector3(0, 0, -highest_index);
+		Debug.Log($"Adding {grid_object} to Cells: {cells_str}");
 	}
 
-	public void VacateCells(List<RectTransform> objectCells, UIGridObject gridObject) {
-		foreach (RectTransform cell in objectCells) {
-			Debug.Log($"Removing {this} from {cell}");
-			cells[cell].Remove(gridObject);
-		}
-	}
-
-	public int GetObjectIndexInCell(RectTransform cell_position, UIGridObject object_to_check) {
-		return cells[cell_position].IndexOf(object_to_check);
-	}
-
-	private string GridObjectString(List<UIGridObject> objects) {
-		string str = string.Empty;
-		foreach (UIGridObject obj in objects) {
-			str += $"{obj.gameObject.name}, ";
+	public void VacateCells(List<RectTransform> grid_cells, UIGridObject grid_object) {
+		string cells_str = string.Empty;
+		foreach (RectTransform cell in grid_cells) {
+			cells_str += $"{cell.anchoredPosition} ";
+			cells[cell].Remove(grid_object);
 		}
 
-		return str;
+		Debug.Log($"Removing {grid_object} from Cells: {cells_str}");
 	}
 
 	public Vector2 GetCenter(List<RectTransform> cells) {
@@ -132,8 +112,6 @@ public class UIGridManager : MonoBehaviour {
 			if (cell_pos.y < down)
 				down = cell_pos.y;
 		}
-
-		Debug.Log($"Top Right: ({right}, {up}); Bottom Left: ({left}, {down})");
 
 		float centerX = (right + left) / 2;
 		float centerY = (up + down) / 2;

@@ -1,6 +1,10 @@
 using UnityEngine;
 
 namespace Utilities.UIGrid {
+	public enum GridObjectStates { 
+		Idle, Clicked, Dragging,
+	}
+
 	public class UIGridUtility {
 		public static Vector2 GetGridPosition(RectTransform child, RectTransform gridManager) {
 			// Get the world position of the child RectTransform
