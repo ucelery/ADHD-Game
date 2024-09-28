@@ -3,6 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Utilities.Interactable;
+using Utilities.UIGrid;
 using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch;
 
 /// <summary>
@@ -13,6 +14,9 @@ public class UIInteractable : MonoBehaviour, IPointerDownHandler, IBeginDragHand
 
 	private Canvas canvas;
 	protected RectTransform rectTransform;
+
+	protected GridObjectStates state;
+	protected Vector2 startingPressPos;
 
 	private void Awake() {
 		rectTransform = GetComponent<RectTransform>();
@@ -27,5 +31,7 @@ public class UIInteractable : MonoBehaviour, IPointerDownHandler, IBeginDragHand
 
 	public virtual void OnEndDrag(PointerEventData eventData) { }
 
-	public virtual void OnPointerDown(PointerEventData eventData) { }
+	public virtual void OnPointerDown(PointerEventData eventData) {
+		startingPressPos = eventData.position;
+	}
 }

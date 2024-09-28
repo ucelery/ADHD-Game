@@ -1,8 +1,8 @@
 using UnityEngine;
 
 namespace Utilities.UIGrid {
-	public enum GridObjectStates { 
-		Idle, Clicked, Dragging,
+	public enum GridObjectStates {
+		Unattached, Attached, Clicked, Dragging
 	}
 
 	public class UIGridUtility {

@@ -8,8 +8,6 @@ public class UIGridObject : UIInteractable {
 	[SerializeField] protected UIGridManager grid;
 	[SerializeField] protected List<RectTransform> cells;
 
-	private GridObjectStates state = GridObjectStates.Idle;
-
 	private void OnEnable() {
 		EnhancedTouch.TouchSimulation.Enable();
 		EnhancedTouch.EnhancedTouchSupport.Enable();
@@ -53,6 +51,8 @@ public class UIGridObject : UIInteractable {
 	}
 
 	public override void OnBeginDrag(PointerEventData eventData) {
+		if (!CanDrag() && state != GridObjectStates.Unattached) return;
+
 		Debug.Log("Drag Start");
 
 		state = GridObjectStates.Dragging;
@@ -68,13 +68,14 @@ public class UIGridObject : UIInteractable {
 	}
 
 	public override void OnDrag(PointerEventData eventData) {
-		base.OnDrag(eventData);
+		if (state == GridObjectStates.Dragging)
+			base.OnDrag(eventData);
 	}
 
 	public override void OnEndDrag(PointerEventData eventData) {
-		List<RectTransform> valid_cells = GetTouchingGridCells();
+		if (state != GridObjectStates.Dragging) return;
 
-		state = GridObjectStates.Idle;
+		List<RectTransform> valid_cells = GetTouchingGridCells();
 
 		if (valid_cells.Count >= cells.Count && CanOccupy(valid_cells)) {
 			// Snap this Game Object on the center of the detected cells
@@ -85,9 +86,25 @@ public class UIGridObject : UIInteractable {
 
 			// Register the data to the cells
 			grid.OccupyCells(valid_cells, this);
+			state = GridObjectStates.Attached;
 		} else {
 			Debug.Log("Invalid Drop");
+			state = GridObjectStates.Unattached;
 		}
+	}
+
+	protected virtual bool CanDrag() {
+		// Check if the object it on the top
+		List<RectTransform> valid_cells = GetTouchingGridCells();
+		foreach (RectTransform cell in valid_cells) {
+			int index = grid.Cells[cell].IndexOf(this);
+			if (index < grid.Cells[cell].Count - 1) {
+				// This cell is not on top
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public virtual void ToggleRotate() {
@@ -111,7 +128,7 @@ public class UIGridObject : UIInteractable {
 		return false;
 	}
 
-	private List<RectTransform> GetTouchingGridCells() {
+	protected List<RectTransform> GetTouchingGridCells() {
 		List<RectTransform> in_cells = new();
 		foreach (RectTransform cell in cells) {
 			RectTransform? is_in_cell = grid.GetCellAtPosition(cell);

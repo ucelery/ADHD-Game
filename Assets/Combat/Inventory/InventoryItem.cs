@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Utilities.Inventory;
 
@@ -30,6 +31,16 @@ public class InventoryItem : UIGridObject {
 		}
 
 		base.Initialize(grid);
+	}
+
+	public override void OnBeginDrag(PointerEventData eventData) {
+		if (CanDrag()) {
+			base.OnBeginDrag(eventData);
+		}
+	}
+
+	protected override bool CanDrag() {
+		return base.CanDrag();
 	}
 
 	protected override bool CanOccupy(List<RectTransform> cells_to_occupy) {
