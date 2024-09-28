@@ -19,6 +19,8 @@ public class StorageRowItem : MonoBehaviour {
 	public UnityEvent<ItemData> OnClick;
 
 	public void Initialize(ItemData item) {
+		this.item = item;
+
 		nameText.SetText(item.InventoryProperties.itemName);
 		descText.SetText(item.InventoryProperties.itemDescription);
 		itemIcon.sprite = item.InventoryProperties.inventorySprite;

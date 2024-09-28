@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerName: 
   items:
-  - {fileID: 11400000, guid: eb567348e76075c42bc30cd5e1d2463d, type: 2}
   - {fileID: 11400000, guid: 9e7a820c4968721458468931c45259ce, type: 2}
   - {fileID: 11400000, guid: 9e7a820c4968721458468931c45259ce, type: 2}
+  - {fileID: 11400000, guid: 2dd2e438f57b8ba45acabb4ad0e664e4, type: 2}
+  - {fileID: 11400000, guid: 2dd2e438f57b8ba45acabb4ad0e664e4, type: 2}
   - {fileID: 11400000, guid: 2dd2e438f57b8ba45acabb4ad0e664e4, type: 2}

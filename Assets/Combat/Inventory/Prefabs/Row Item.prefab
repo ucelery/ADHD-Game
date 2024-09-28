@@ -501,6 +501,9 @@ MonoBehaviour:
   descText: {fileID: 3051914043047951233}
   amountText: {fileID: 6225484495642658053}
   itemIcon: {fileID: 8759916701225990426}
+  OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &-8917573586842187503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -546,12 +549,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7121496865928230705}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+        m_TargetAssemblyTypeName: StorageRowItem, Assembly-CSharp
+        m_MethodName: OnClick_ItemRow
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

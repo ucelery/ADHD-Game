@@ -19,16 +19,22 @@ public class StorageManager : MonoBehaviour {
 			if (i > storageRowItems.Count - 1) {
 				row = Instantiate(itemRowPrefab, rowContainer).GetComponent<StorageRowItem>();
 				storageRowItems.Add(row);
+				row.OnClick.AddListener(OnItemSelect);
 			}
 
 			row = storageRowItems[i];
 
 			if (i < items.Count) {
+				row.gameObject.SetActive(true);
 				row.Initialize(items[i]);
 			} else {
 				// Disable excess rows
 				row.gameObject.SetActive(false);
 			}
 		}
+	}
+
+	public void OnItemSelect(ItemData item) {
+		Debug.Log(item);
 	}
 }
