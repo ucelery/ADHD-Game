@@ -33,16 +33,6 @@ public class InventoryItem : UIGridObject {
 		base.Initialize(grid);
 	}
 
-	public override void OnBeginDrag(PointerEventData eventData) {
-		if (CanDrag()) {
-			base.OnBeginDrag(eventData);
-		}
-	}
-
-	protected override bool CanDrag() {
-		return base.CanDrag();
-	}
-
 	protected override bool CanOccupy(List<RectTransform> cells_to_occupy) {
 		// Item Filtering - Checks all cells that we're about to occupy
 		// - If current item has a filter check if occupying cell is part of it

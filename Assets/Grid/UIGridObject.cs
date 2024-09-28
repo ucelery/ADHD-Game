@@ -94,6 +94,8 @@ public class UIGridObject : UIInteractable {
 	}
 
 	protected virtual bool CanDrag() {
+		if (state == GridObjectStates.Unattached) return true;
+
 		// Check if the object it on the top
 		List<RectTransform> valid_cells = GetTouchingGridCells();
 		foreach (RectTransform cell in valid_cells) {
