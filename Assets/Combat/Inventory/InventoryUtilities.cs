@@ -13,10 +13,13 @@ namespace Utilities.Inventory {
 
 	[System.Serializable]
 	public struct InventoryProperties {
+		public string itemName;
+		public string itemDescription;
 		public Sprite inventorySprite;
 		public Sprite dropSprite;
 		public BoxComponent[] boxColliderData;
 		public ItemType cellFilter; // Type of cell this item can occupy
+		public float rotation;
 	}
 
 	[System.Serializable]

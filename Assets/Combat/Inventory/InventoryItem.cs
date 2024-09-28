@@ -1,13 +1,18 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using Utilities.Inventory;
 
 public class InventoryItem : UIGridObject {
     [Header("Inventory Item")]
     [SerializeField] private ItemData item;
 	[SerializeField] private GameObject inventoryCellPrefab;
+
+	[Header("UI Elements")]
+	[SerializeField] private RectTransform spriteHolder;
+	[SerializeField] private RectTransform itemSprite;
+
+	private float rotation = 0;
 
 	public ItemData Item { get { return item; } }
 
@@ -17,6 +22,8 @@ public class InventoryItem : UIGridObject {
 			RectTransform rect = new_ui_element.GetComponent<RectTransform>();
 			rect.anchoredPosition = col.offset * grid.CellSize;
 			rect.sizeDelta = grid.CellSize;
+			itemSprite.localEulerAngles = new Vector3(0, 0, item.InventoryProperties.rotation);
+			itemSprite.GetComponent<Image>().sprite = item.InventoryProperties.inventorySprite;
 
 			cells.Add(rect);
 		}
@@ -47,7 +54,6 @@ public class InventoryItem : UIGridObject {
 			if (valid_cells >= cells_to_occupy.Count) 
 				return true;
 
-			// Return false 
 			return false;
 		}
 
@@ -55,5 +61,29 @@ public class InventoryItem : UIGridObject {
 		if (!base.CanOccupy(cells_to_occupy)) return false;
 
 		return true;
+	}
+
+	public override void ToggleRotate() {
+		base.ToggleRotate();
+
+		switch (rotation) {
+			case 0f:
+				rotation = 270f;
+				break;
+			case 270f:
+				rotation = 180f;
+				break;
+			case 180f:
+				rotation = 90f;
+				break;
+			case 90f:
+				rotation = 0f;
+				break;
+		}
+
+		Quaternion quat = Quaternion.Euler(0, 0, rotation);
+
+		spriteHolder.rotation = quat;
+		spriteHolder.anchoredPosition = grid.GetCenter(cells);
 	}
 }

@@ -9,7 +9,6 @@ public class UIGridObject : UIInteractable {
 	[SerializeField] protected List<RectTransform> cells;
 
 	private GridObjectStates state = GridObjectStates.Idle;
-	private float rotation = 0;
 
 	private void OnEnable() {
 		EnhancedTouch.TouchSimulation.Enable();
@@ -91,26 +90,7 @@ public class UIGridObject : UIInteractable {
 		}
 	}
 
-	public void ToggleRotate() {
-		//switch (rotation) {
-		//	case 0f:
-		//		rotation = 270f;
-		//		break;
-		//	case 270f:
-		//		rotation = 180f;
-		//		break;
-		//	case 180f:
-		//		rotation = 90f;
-		//		break;
-		//	case 90f:
-		//		rotation = 0f;
-		//		break;
-		//}
-
-		//Quaternion quat = Quaternion.Euler(0, 0, rotation);
-
-		//transform.rotation = quat;
-
+	public virtual void ToggleRotate() {
 		// Rotate Cells
 		foreach (RectTransform cell in cells) {
 			cell.anchoredPosition = new Vector2(cell.anchoredPosition.y, -cell.anchoredPosition.x);

@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc923926732db9746af49de1a30442d0, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  inventorySprite: {fileID: 0}
-  dropSprite: {fileID: 0}
-  boxColliderData: []
+  InventoryProperties:
+    itemName: Basic Sword
+    itemDescription: A practicing sword good for beginners
+    inventorySprite: {fileID: 0}
+    dropSprite: {fileID: 0}
+    boxColliderData: []
+    cellFilter: 0
+  type: 0
   projectiles:
   - {fileID: 0}
   rof: 1

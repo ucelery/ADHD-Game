@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: 1x3 Backpack
   m_EditorClassIdentifier: 
   InventoryProperties:
+    itemName: Duffel Bag
+    itemDescription: A backpack good for starting adventurers
     inventorySprite: {fileID: -87519279, guid: c684c189e762942489eb92c57538cdc1, type: 3}
     dropSprite: {fileID: 0}
     boxColliderData:

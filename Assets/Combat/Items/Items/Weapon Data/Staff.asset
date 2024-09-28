@@ -13,14 +13,17 @@ MonoBehaviour:
   m_Name: Staff
   m_EditorClassIdentifier: 
   InventoryProperties:
-    inventorySprite: {fileID: 52339984, guid: c684c189e762942489eb92c57538cdc1, type: 3}
-    dropSprite: {fileID: 0}
+    itemName: Basic Staff
+    itemDescription: A practicing staff good for initiates
+    inventorySprite: {fileID: -658174094, guid: 2b8d405d89983084099d163d76feb13b, type: 3}
+    dropSprite: {fileID: -658174094, guid: 2b8d405d89983084099d163d76feb13b, type: 3}
     boxColliderData:
     - offset: {x: 0, y: 0}
       size: {x: 1, y: 1}
     - offset: {x: 1, y: 0}
       size: {x: 1, y: 1}
     cellFilter: 2
+    rotation: -45
   type: 8
   projectiles:
   - {fileID: 11400000, guid: 895f32e423f9092409bbc899277f08de, type: 2}
