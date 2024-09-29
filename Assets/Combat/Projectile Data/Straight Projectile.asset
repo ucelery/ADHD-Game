@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 897973a5f949498428509200665562ba, type: 3}
-  m_Name: Wavy Projectile Reversed
+  m_Name: Straight Projectile
   m_EditorClassIdentifier: 
-  isReversed: 1
-  speed: 8
-  frequency: 15
-  amplitude: 0.5
+  isReversed: 0
+  speed: 5
+  frequency: 0
+  amplitude: 0
   lifespan: 1.5
-  directionOffset: -360
+  directionOffset: 0

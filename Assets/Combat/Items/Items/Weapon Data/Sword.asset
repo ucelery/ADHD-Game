@@ -21,7 +21,7 @@ MonoBehaviour:
     boxColliderData: []
     cellFilter: 0
     rotation: 0
-  type: 0
+  type: 8
   projectiles:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 8839fe38e44985a408c66a7c5a20d912, type: 2}
   rof: 1
