@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcd9257a66bf5c14fb8eb04b463a5ec1, type: 3}
   m_Name: 2x2 Backpack
   m_EditorClassIdentifier: 
+  itemId: 
   InventoryProperties:
     itemName: Adventurer's Pack
     itemDescription: A backpack good for intermediate adventurers in need of storage

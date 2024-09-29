@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc923926732db9746af49de1a30442d0, type: 3}
   m_Name: Staff
   m_EditorClassIdentifier: 
+  itemId: 
   InventoryProperties:
     itemName: Basic Staff
     itemDescription: A practicing staff good for initiates

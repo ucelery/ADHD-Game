@@ -6,10 +6,14 @@ using UnityEngine;
 public class StorageManager : MonoBehaviour {
     [Header("UI Elements")]
     [SerializeField] private GameObject itemRowPrefab;
+	[SerializeField] private GameObject inventoryItemPrefab;
 	[SerializeField] private Transform rowContainer;
 
 	[Header("Storage Properties")]
-	Dictionary<ItemData, StorageRowItem> storageRowItems = new();
+	[SerializeField] private PlayerData playerData;
+
+	private Dictionary<ItemData, StorageRowItem> storageRowItems = new();
+	private List<InventoryItem> inventoryItems = new();
 
 	public void ListItems(List<ItemData> items) {
 		// List Items
@@ -37,6 +41,6 @@ public class StorageManager : MonoBehaviour {
 	}
 
 	public void OnItemSelect(ItemData item) {
-		Debug.Log(item);
+		
 	}
 }
