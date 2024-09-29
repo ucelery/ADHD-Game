@@ -38,6 +38,7 @@ public class ProjectilePooling : MonoBehaviour {
 			// Recycle Projectiles if there are unused projectiles
 			if (projectilePool.Count > 0) {
 				projectile = projectilePool.Dequeue();
+				projectile.gameObject.SetActive(true);
 			} else {
 				// if there are not enough in the pool, make more
 				GameObject projectile_go = Instantiate(projectilePrefab, transform.position, Quaternion.identity);

@@ -53,6 +53,7 @@ public class Projectile : MonoBehaviour {
 	}
 
 	private void Despawn() {
+		gameObject.SetActive(false);
 		OnDespawn?.Invoke();
 	}
 }
