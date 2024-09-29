@@ -1,14 +1,14 @@
 using UnityEngine;
 
 [System.Serializable]
-public class Item {
+public class ItemTracker {
 	private ItemData item;
 	private float fireRate;
 	private float lastFiredTime;
 
 	public ItemData ItemData { get { return item; } }
 
-	public Item(ItemData item, float delay) {
+	public ItemTracker(ItemData item, float delay) {
 		this.item = item;
 		fireRate = delay;
 		lastFiredTime = -fireRate;

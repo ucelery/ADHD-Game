@@ -5,13 +5,13 @@ using Utilities.Inventory;
 
 public class Unit : MonoBehaviour {
 	[Header("Unit Properties")]
+	[SerializeField] private UnitData unit;
 	[SerializeField] private UnitStatsData _base;
 	[SerializeField] private UnitStatsData _growth;
-	[SerializeField] private WeaponData weapon;
 	[SerializeField] private List<ItemData> inventory;
 	[SerializeField] private LevelHandler levelHandler;
 
-	private List<Item> item_tracker = new();
+	private List<ItemTracker> item_tracker = new();
 
 	private void Awake() {
 		InitializeInventory();
@@ -20,7 +20,7 @@ public class Unit : MonoBehaviour {
 	public void InitializeInventory() {
 		foreach (ItemData item in inventory) {
 			if (item is WeaponData)
-				item_tracker.Add(new Item(item, GetShootDelay(item as WeaponData)));
+				item_tracker.Add(new ItemTracker(item, GetShootDelay(item as WeaponData)));
 		}
 	}
 
@@ -29,7 +29,7 @@ public class Unit : MonoBehaviour {
 	}
 
 	private void HandleItemActivation() {
-		foreach (Item item in item_tracker) {
+		foreach (ItemTracker item in item_tracker) {
 			if (item.CanActivate()) {
 				if (item.ItemData is WeaponData) {
 					ProjectilePooling.Instance.Shoot(item.ItemData as WeaponData, this, Vector2.one);
