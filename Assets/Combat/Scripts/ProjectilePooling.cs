@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 public class ProjectilePooling : MonoBehaviour {
 	[Header("UI Elements")]
 	[SerializeField] private GameObject projectilePrefab;
+	[SerializeField] private Transform container;
 
 	private Queue<Projectile> projectilePool = new();
 
@@ -41,7 +42,7 @@ public class ProjectilePooling : MonoBehaviour {
 				projectile.gameObject.SetActive(true);
 			} else {
 				// if there are not enough in the pool, make more
-				GameObject projectile_go = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+				GameObject projectile_go = Instantiate(projectilePrefab, origin.transform.position, Quaternion.identity, container);
 				projectile = projectile_go.GetComponent<Projectile>();
 			}
 

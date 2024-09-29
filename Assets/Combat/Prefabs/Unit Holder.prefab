@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2861927605747641710}
   - component: {fileID: 3573729988762625797}
   m_Layer: 0
-  m_Name: Ally
+  m_Name: Unit Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
