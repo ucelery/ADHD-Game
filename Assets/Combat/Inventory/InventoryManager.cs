@@ -13,4 +13,8 @@ public class InventoryManager : MonoBehaviour {
 		// List Items
 		storageManager.ListItems(playerData.Items);
 	}
+
+	private void OnDisable() {
+		storageManager.ResetItems();
+	}
 }

@@ -16,6 +16,8 @@ public class StorageRowItem : MonoBehaviour {
 
 	private int amount;
 
+	public ItemData Item { get { return item; } }
+
 	public UnityEvent<ItemData> OnClick;
 
 	public void Initialize(ItemData item) {
@@ -25,14 +27,23 @@ public class StorageRowItem : MonoBehaviour {
 		descText.SetText(item.InventoryProperties.itemDescription);
 		itemIcon.sprite = item.InventoryProperties.inventorySprite;
 		amount = 1;
+
+		amountText.SetText($"{amount}x");
 	}
 
 	public void AddAmount() {
 		amount++;
+		amountText.SetText($"{amount}x");
 	}
 
 	public void ReduceAmount() {
 		amount--;
+		amountText.SetText($"{amount}x");
+	}
+
+	public void ResetAmount() {
+		amount = 0;
+		amountText.SetText($"{amount}x");
 	}
 
 	public void OnClick_ItemRow() {

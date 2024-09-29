@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StorageManager : MonoBehaviour {
@@ -8,29 +9,30 @@ public class StorageManager : MonoBehaviour {
 	[SerializeField] private Transform rowContainer;
 
 	[Header("Storage Properties")]
-	private List<StorageRowItem> storageRowItems = new();
+	Dictionary<ItemData, StorageRowItem> storageRowItems = new();
 
 	public void ListItems(List<ItemData> items) {
 		// List Items
 		int highest = storageRowItems.Count > items.Count ? storageRowItems.Count : items.Count;
-		for (int i = 0; i < highest; i++) {
-			StorageRowItem row = null;
-			// Check if theres enough rows
-			if (i > storageRowItems.Count - 1) {
-				row = Instantiate(itemRowPrefab, rowContainer).GetComponent<StorageRowItem>();
-				storageRowItems.Add(row);
-				row.OnClick.AddListener(OnItemSelect);
-			}
-
-			row = storageRowItems[i];
-
-			if (i < items.Count) {
-				row.gameObject.SetActive(true);
-				row.Initialize(items[i]);
+		foreach (ItemData item in items) {
+			// check if there is an item in the dictionary, if there is just add the amount
+			// - else make one
+			if (storageRowItems.ContainsKey(item)) {
+				storageRowItems[item].gameObject.SetActive(true);
+				storageRowItems[item].AddAmount();
 			} else {
-				// Disable excess rows
-				row.gameObject.SetActive(false);
+				StorageRowItem new_row = Instantiate(itemRowPrefab, rowContainer).GetComponent<StorageRowItem>();
+				new_row.OnClick.AddListener(OnItemSelect);
+				storageRowItems.Add(item, new_row);
+				new_row.Initialize(item);
 			}
+		}
+	}
+
+	public void ResetItems() {
+		foreach (KeyValuePair<ItemData, StorageRowItem> item in storageRowItems) {
+			item.Value.ResetAmount();
+			item.Value.gameObject.SetActive(false);
 		}
 	}
 
