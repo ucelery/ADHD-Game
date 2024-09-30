@@ -3,12 +3,14 @@ using UnityEngine;
 using static UnityEngine.UI.Image;
 using UnityEngine.UIElements;
 using Utilities.Units;
+using UnityEngine.Events;
 
 public class UnitPooling : MonoBehaviour {
 	[Header("UI Elements")]
 	[SerializeField] private GameObject unitPrefab;
 	[SerializeField] private Transform container;
 
+	// !! For Debugging
 	[SerializeField] private List<UnitData> unitsToSpawn;
 
 	private Queue<Unit> unitPool = new();
@@ -16,6 +18,8 @@ public class UnitPooling : MonoBehaviour {
 
 	private static UnitPooling _instance;
 
+	public Dictionary<UnitType, List<Unit>> ActiveUnits { get { return active_units; } }
+	public PoolingEvents Events;
 	public static UnitPooling Instance {
 		get {
 			if (_instance == null) {
@@ -27,7 +31,7 @@ public class UnitPooling : MonoBehaviour {
 		}
 	}
 
-	protected virtual void Awake() {
+	private void Awake() {
 		if (_instance == null) {
 			_instance = this;
 		} else if (_instance != this) {
@@ -36,6 +40,8 @@ public class UnitPooling : MonoBehaviour {
 	}
 
 	private void Start() {
+		Events.OnSpawn = new();
+
 		foreach (UnitData unit in unitsToSpawn) {
 			SpawnUnit(unit);
 		}
@@ -56,8 +62,9 @@ public class UnitPooling : MonoBehaviour {
 
 		unit.Initialize(new_unit);
 
-		if (!active_units.ContainsKey(new_unit.type))
+		if (!active_units.ContainsKey(new_unit.type)) {
 			active_units.Add(new_unit.type, new List<Unit>());
+		}
 
 		active_units[new_unit.type].Add(unit);
 
@@ -65,7 +72,11 @@ public class UnitPooling : MonoBehaviour {
 			// When this projectile despawns add it back to queue and reset listeners
 			unitPool.Enqueue(unit);
 			active_units[new_unit.type].Remove(unit);
+			Events.OnDespawn?.Invoke(unit);
+
 			unit.Events.OnDespawn.RemoveAllListeners();
 		});
+
+		Events.OnSpawn?.Invoke(unit);
 	}
 }

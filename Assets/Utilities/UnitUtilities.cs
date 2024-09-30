@@ -26,4 +26,14 @@ namespace Utilities.Units {
 		public UnityEvent<Unit> OnDespawn;
 		public UnityEvent<ItemData> OnShoot;
 	}
+
+	[System.Serializable] 
+	public struct PoolingEvents {
+		public UnityEvent<Unit> OnSpawn;
+		public UnityEvent<Unit> OnDespawn;
+	}
+
+	public enum UnitState {
+		Idle, Patrolling, InCombat, Dead
+	}
 }

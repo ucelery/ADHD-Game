@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nickname: 
   inGameSprite: {fileID: 0}
-  type: 2
+  type: 0
   race: 2
+  target: 1
+  inventory:
+  - {fileID: 11400000, guid: 2dd2e438f57b8ba45acabb4ad0e664e4, type: 2}

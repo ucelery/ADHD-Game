@@ -213,7 +213,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7217782653028576229, guid: a29057ca32bb6ea438aece8e7ca703d6, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -299,7 +299,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7217782653028576229, guid: a29057ca32bb6ea438aece8e7ca703d6, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -373,6 +373,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 45e48fffc315a014b8371a46052a77e2, type: 2}
   - {fileID: 11400000, guid: 45e48fffc315a014b8371a46052a77e2, type: 2}
   - {fileID: 11400000, guid: 44e37b9c609143d44bbd2cc8f4c0ac09, type: 2}
+  Events:
+    OnSpawn:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDespawn:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &1144371988
 GameObject:
   m_ObjectHideFlags: 0

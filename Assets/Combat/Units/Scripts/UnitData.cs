@@ -10,4 +10,8 @@ public class UnitData : ScriptableObject {
 	public Sprite inGameSprite;
 	public UnitType type;
 	public UnitRace race;
+	public UnitType target;
+
+	[Header("Inventory"), Tooltip("Only assign if the unit is non-playable or for testing")]
+	public List<ItemData> inventory;
 }
