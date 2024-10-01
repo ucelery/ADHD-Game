@@ -40,9 +40,11 @@ namespace Utilities.Units {
 	[System.Serializable]
 	public class Damage {
 		public Unit origin;
+		public WeaponData weapon;
 
-		public Damage(Unit origin) {
+		public Damage(Unit origin, WeaponData weapon) {
 			this.origin = origin;
+			this.weapon = weapon;
 		}
 
 		public float CalculateDamage() {

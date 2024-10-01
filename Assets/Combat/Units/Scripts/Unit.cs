@@ -94,7 +94,8 @@ public class Unit : MonoBehaviour {
 
 	private void ActivateItem(ItemTracker item, Vector2 direction) {
 		if (item.ItemData is WeaponData && state == UnitState.InCombat) {
-			Damage weapon_damage = new Damage(this);
+			WeaponData weapon = (WeaponData)item.ItemData;
+			Damage weapon_damage = new Damage(this, weapon);
 
 			ProjectilePooling.Instance.Shoot(item.ItemData as WeaponData, weapon_damage, direction);
 		}

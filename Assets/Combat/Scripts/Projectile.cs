@@ -29,6 +29,12 @@ public class Projectile : MonoBehaviour {
 
 	void Update() {
 		if (projectileData == null) return;
+			
+		// Check for range and stop moving if it reaches the end
+		bool is_out_of_range = Vector2.Distance(transform.position, startPosition) >= damage.weapon.range;
+		if (is_out_of_range) {
+			Despawn();
+		};
 
 		// Calculate the time-based wavy offset
 		float waveOffset = Mathf.Sin((Time.time - startTime) * projectileData.frequency) * projectileData.amplitude;
@@ -43,12 +49,6 @@ public class Projectile : MonoBehaviour {
 		Vector3 currentTrajectoryPosition = startPosition + direction * (Vector3.Dot(transform.position - startPosition, direction) + forwardMovement.magnitude);
 		Vector3 wavyMovement = perpendicular * waveOffset;
 		transform.position = currentTrajectoryPosition + wavyMovement;
-
-		// Update lifespan
-		currentLifeSpan -= Time.deltaTime;
-		if (currentLifeSpan < 0) {
-			Despawn();
-		}
 	}
 
 	public void Initialize(ProjectileData projectileData, Damage damage, Vector2 direction) {

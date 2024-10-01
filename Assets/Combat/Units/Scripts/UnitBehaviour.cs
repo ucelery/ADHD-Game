@@ -1,18 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitBehaviour : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+public class UnitBehaviour : ScriptableObject {
+	[SerializeField] private List<Movement> patrol;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public struct Movement {
+		public Vector2 point;
+		public float speed;
+	}
 }
