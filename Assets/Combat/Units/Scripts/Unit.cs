@@ -1,11 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
-using Utilities.Inventory;
 using Utilities.Units;
-using static UnityEngine.GraphicsBuffer;
 
 public class Unit : MonoBehaviour {
 	[Header("Unit Properties")]
@@ -17,6 +13,7 @@ public class Unit : MonoBehaviour {
 	[SerializeField] private UnitEvents events;
 
 	public UnitEvents Events { get { return events; } }
+	public UnitData UnitData {  get { return unit; } }
 
 	private List<ItemTracker> item_tracker = new();
 	private UnitState state;
@@ -51,6 +48,10 @@ public class Unit : MonoBehaviour {
 			if (item is WeaponData)
 				item_tracker.Add(new ItemTracker(item, GetShootDelay(item as WeaponData)));
 		}
+	}
+
+	public void TakeDamage(Damage damage) {
+		Debug.Log($"This unit took damage by {damage.origin}");
 	}
 
 	private void Update() {
@@ -93,7 +94,9 @@ public class Unit : MonoBehaviour {
 
 	private void ActivateItem(ItemTracker item, Vector2 direction) {
 		if (item.ItemData is WeaponData && state == UnitState.InCombat) {
-			ProjectilePooling.Instance.Shoot(item.ItemData as WeaponData, this, direction);
+			Damage weapon_damage = new Damage(this);
+
+			ProjectilePooling.Instance.Shoot(item.ItemData as WeaponData, weapon_damage, direction);
 		}
 	}
 
@@ -125,5 +128,12 @@ public class Unit : MonoBehaviour {
 
 	private void ChangeState(UnitState new_state) {
 		state = new_state;
+	}
+
+	private void OnDrawGizmosSelected() {
+		if (unit != null) {
+			Gizmos.color = Color.yellow;
+			Gizmos.DrawWireSphere(transform.position, unit.hitboxRadius);
+		}
 	}
 }

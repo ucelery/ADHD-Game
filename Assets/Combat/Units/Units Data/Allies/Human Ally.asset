@@ -17,5 +17,6 @@ MonoBehaviour:
   type: 0
   race: 2
   target: 1
+  hitboxRadius: 0.25
   inventory:
   - {fileID: 11400000, guid: 2dd2e438f57b8ba45acabb4ad0e664e4, type: 2}

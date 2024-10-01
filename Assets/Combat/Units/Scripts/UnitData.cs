@@ -11,6 +11,7 @@ public class UnitData : ScriptableObject {
 	public UnitType type;
 	public UnitRace race;
 	public UnitType target;
+	public float hitboxRadius = 0.5f;
 
 	[Header("Inventory"), Tooltip("Only assign if the unit is non-playable or for testing")]
 	public List<ItemData> inventory;

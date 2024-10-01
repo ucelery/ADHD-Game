@@ -17,3 +17,5 @@ MonoBehaviour:
   frequency: 15
   amplitude: 0.5
   lifespan: 1.5
+  directionOffset: 0
+  projectileRadius: 0.25

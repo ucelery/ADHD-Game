@@ -18,3 +18,4 @@ MonoBehaviour:
   amplitude: 0
   lifespan: 1.5
   directionOffset: 0
+  projectileRadius: 0.25

@@ -10,4 +10,5 @@ public class ProjectileData : ScriptableObject {
 	public float amplitude = 0.5f;
 	public float lifespan = 1.5f;
 	public float directionOffset;
+	public float projectileRadius = 1f;
 }

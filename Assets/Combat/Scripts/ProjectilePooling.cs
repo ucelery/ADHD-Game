@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Utilities.Units;
 
 public class ProjectilePooling : MonoBehaviour {
 	[Header("UI Elements")]
@@ -32,7 +33,7 @@ public class ProjectilePooling : MonoBehaviour {
 		}
 	}
 
-	public void Shoot(WeaponData weapon, Unit origin, Vector2 shootDirection) {
+	public void Shoot(WeaponData weapon, Damage damage, Vector2 shootDirection) {
 		foreach (ProjectileData proj_data in weapon.projectiles) {
 			Projectile projectile = null;
 
@@ -42,11 +43,11 @@ public class ProjectilePooling : MonoBehaviour {
 				projectile.gameObject.SetActive(true);
 			} else {
 				// if there are not enough in the pool, make more
-				GameObject projectile_go = Instantiate(projectilePrefab, origin.transform.position, Quaternion.identity, container);
+				GameObject projectile_go = Instantiate(projectilePrefab, damage.origin.transform.position, Quaternion.identity, container);
 				projectile = projectile_go.GetComponent<Projectile>();
 			}
 
-			projectile.Initialize(proj_data, origin, shootDirection.normalized);
+			projectile.Initialize(proj_data, damage, shootDirection.normalized);
 			projectile.OnDespawn.AddListener(() => {
 				// When this projectile despawns add it back to queue and reset listeners
 				projectilePool.Enqueue(projectile);

@@ -36,4 +36,18 @@ namespace Utilities.Units {
 	public enum UnitState {
 		Idle, Patrolling, InCombat, Dead
 	}
+
+	[System.Serializable]
+	public class Damage {
+		public Unit origin;
+
+		public Damage(Unit origin) {
+			this.origin = origin;
+		}
+
+		public float CalculateDamage() {
+			// Implement damage formula here
+			return 0f;
+		}
+	}
 }
