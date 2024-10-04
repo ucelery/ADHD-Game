@@ -84,15 +84,13 @@ public class Unit : MonoBehaviour {
 			case UnitState.Dead:
 				break;
 		}
-
-		//ChangeState(UnitState.InCombat);
 	}
 
 	private void OnUnitSpawnDespawn(Unit unit) {
 		this.target = LookForTargets();
 
-		if (this.target == null)
-			ChangeState(UnitState.Patrolling);
+		if (this.target != null)
+			ChangeState(UnitState.InCombat);
 	}
 
 	private void HandleBehaviour() {
@@ -106,7 +104,7 @@ public class Unit : MonoBehaviour {
 			case UnitState.InRange:
 				break;
 			case UnitState.InCombat:
-				ChangeState(UnitState.InCombat);
+				InCombatHandler();
 				break;
 			case UnitState.Dead:
 				break;

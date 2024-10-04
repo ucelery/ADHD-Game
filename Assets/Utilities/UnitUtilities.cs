@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using UnityEditor.EditorTools;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Utilities.Units {
@@ -51,5 +54,22 @@ namespace Utilities.Units {
 			// Implement damage formula here
 			return 0f;
 		}
+	}
+
+	public enum SpawnType {
+		Constant, Batches, Group, Circle
+	}
+
+	[System.Serializable]
+	public struct SpawnData {
+		public int spawnCap;
+		public int spawnAmount;
+		[Tooltip("Delay for when the actual spawning begins")]
+		public float spawnDelay;
+
+		[Tooltip("Interval between spawns")]
+		public float spawnInterval;
+		public SpawnType spawnType;
+		public UnitData enemy;
 	}
 }

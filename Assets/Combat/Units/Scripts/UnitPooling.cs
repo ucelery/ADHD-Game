@@ -10,9 +10,6 @@ public class UnitPooling : MonoBehaviour {
 	[SerializeField] private GameObject unitPrefab;
 	[SerializeField] private Transform container;
 
-	// !! For Debugging
-	[SerializeField] private List<UnitData> unitsToSpawn;
-
 	private Queue<Unit> unitPool = new();
 	private Dictionary<UnitType, List<Unit>> active_units = new();
 
@@ -37,17 +34,12 @@ public class UnitPooling : MonoBehaviour {
 		} else if (_instance != this) {
 			Destroy(gameObject);
 		}
-	}
 
-	private void Start() {
 		Events.OnSpawn = new();
-
-		foreach (UnitData unit in unitsToSpawn) {
-			SpawnUnit(unit);
-		}
+		Events.OnDespawn = new();
 	}
 
-	public void SpawnUnit(UnitData new_unit) {
+	public Unit SpawnUnit(UnitData new_unit, Vector2 spawnPosition) {
 		Unit unit = null;
 
 		// Recycle Projectiles if there are unused projectiles
@@ -56,7 +48,7 @@ public class UnitPooling : MonoBehaviour {
 			unit.gameObject.SetActive(true);
 		} else {
 			// if there are not enough in the pool, make more
-			GameObject unit_go = Instantiate(unitPrefab, container);
+			GameObject unit_go = Instantiate(unitPrefab, spawnPosition, Quaternion.identity, container);
 			unit = unit_go.GetComponent<Unit>();
 		}
 
@@ -78,5 +70,7 @@ public class UnitPooling : MonoBehaviour {
 		});
 
 		Events.OnSpawn?.Invoke(unit);
+
+		return unit;
 	}
 }

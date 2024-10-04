@@ -295,10 +295,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitPrefab: {fileID: 7217782653028576229, guid: a29057ca32bb6ea438aece8e7ca703d6, type: 3}
   container: {fileID: 13163562}
-  unitsToSpawn:
-  - {fileID: 11400000, guid: 45e48fffc315a014b8371a46052a77e2, type: 2}
-  - {fileID: 11400000, guid: 45e48fffc315a014b8371a46052a77e2, type: 2}
-  - {fileID: 11400000, guid: 44e37b9c609143d44bbd2cc8f4c0ac09, type: 2}
   Events:
     OnSpawn:
       m_PersistentCalls:
@@ -470,6 +466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1618750434}
   - component: {fileID: 1618750435}
+  - component: {fileID: 1618750436}
   m_Layer: 0
   m_Name: Combat Manager
   m_TagString: Untagged
@@ -506,6 +503,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5b2f4a49db4a3040b48f9b694f52668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allyContainer: {fileID: 1427612093}
+  enemyContainer: {fileID: 702934017}
+--- !u!114 &1618750436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618750433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28c1b5ec968eff42ac9d8b770d64bff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLevel: {fileID: 11400000, guid: 2534640246aa2224cbe13148082c3e16, type: 2}
+  spawner: {fileID: 1618750435}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
