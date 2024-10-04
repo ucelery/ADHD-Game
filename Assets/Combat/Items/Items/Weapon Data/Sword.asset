@@ -24,7 +24,6 @@ MonoBehaviour:
   type: 8
   projectiles:
   - {fileID: 11400000, guid: 8839fe38e44985a408c66a7c5a20d912, type: 2}
-  projectileStays: 1
   rof: 1
   range: 7
-  lifespan: 7
+  behaviour: {fileID: 0}

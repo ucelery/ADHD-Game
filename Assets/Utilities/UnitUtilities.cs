@@ -34,7 +34,7 @@ namespace Utilities.Units {
 	}
 
 	public enum UnitState {
-		Idle, Patrolling, InCombat, Dead
+		Idle, Patrolling, TargetDetected, InRange, InCombat, Dead
 	}
 
 	[System.Serializable]

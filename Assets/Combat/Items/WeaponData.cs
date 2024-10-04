@@ -8,4 +8,5 @@ public class WeaponData : ItemData {
     public ProjectileData[] projectiles;
 	public float rof = 1f; // rate of fire
 	public float range = 7f;
+	public UnitBehaviour behaviour;
 }
