@@ -21,13 +21,15 @@ namespace Utilities.Units {
 		Dragonkin = 1 << 9,
 		Vampire = 1 << 10,
 		Angel = 1 << 11,
-		Demon = 1 << 12
+		Demon = 1 << 12,
+		Summon = 1 << 13,
 	}
 
 	[System.Serializable]
 	public struct UnitEvents {
 		public UnityEvent<Unit> OnDespawn;
 		public UnityEvent<ItemData> OnShoot;
+		public UnityEvent OnTakeDamage;
 	}
 
 	[System.Serializable] 
@@ -37,7 +39,7 @@ namespace Utilities.Units {
 	}
 
 	public enum UnitState {
-		Idle, Patrolling, TargetDetected, InRange, InCombat, Dead
+		Idle, Patrolling, TargetDetected, InCombat, Dead
 	}
 
 	[System.Serializable]
@@ -71,5 +73,17 @@ namespace Utilities.Units {
 		public float spawnInterval;
 		public SpawnType spawnType;
 		public UnitData enemy;
+	}
+
+	[System.Serializable]
+	public struct CurrentStats {
+		public float hitPoints;
+		public float manaPoints;
+	}
+
+    [System.Serializable]
+    public struct LevelEvents {
+		public UnityEvent OnLevelUp;
+		public UnityEvent OnExperienceGain;
 	}
 }

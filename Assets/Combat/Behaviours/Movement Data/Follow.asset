@@ -9,14 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 644a3899c69485544b6c5c333286ce75, type: 3}
-  m_Name: Meadows
+  m_Script: {fileID: 11500000, guid: 1ac199a25be5e8d44bf951591d0e0af9, type: 3}
+  m_Name: Follow
   m_EditorClassIdentifier: 
-  spawnRate: 1
-  spawns:
-  - spawnCap: 10
-    spawnAmount: 10
-    spawnDelay: 1
-    spawnInterval: 0
-    spawnType: 3
-    enemy: {fileID: 11400000, guid: 5f94d88811f850547ab395bc043c2933, type: 2}
+  movement:
+  - point: {x: 0, y: 0}
+    axis: 1
+    instant: 0
+    speedMult: 1

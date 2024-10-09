@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22d1b1b7ba06eb54fada29a4d62ca541, type: 3}
-  m_Name: Enemy Goblin
+  m_Name: Enemy Goblin 2
   m_EditorClassIdentifier: 
   nickname: 
   inGameSprite: {fileID: 0}
@@ -21,4 +21,4 @@ MonoBehaviour:
   baseStats: {fileID: 11400000, guid: 5284b52af1414604097d0ac41e559ac3, type: 2}
   growthStats: {fileID: 11400000, guid: ae5c521fc16e7da42bc7dadc5ebcac99, type: 2}
   inventory:
-  - {fileID: 11400000, guid: 9e7a820c4968721458468931c45259ce, type: 2}
+  - {fileID: 11400000, guid: 421df64825c00ce4cb0134a42a9ccf22, type: 2}

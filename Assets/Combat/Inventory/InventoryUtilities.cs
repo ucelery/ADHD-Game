@@ -1,4 +1,3 @@
-using static ItemData;
 using UnityEngine;
 
 namespace Utilities.Inventory {

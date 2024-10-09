@@ -18,5 +18,7 @@ MonoBehaviour:
   race: 2
   target: 1
   hitboxRadius: 0.25
+  baseStats: {fileID: 11400000, guid: 5284b52af1414604097d0ac41e559ac3, type: 2}
+  growthStats: {fileID: 11400000, guid: ae5c521fc16e7da42bc7dadc5ebcac99, type: 2}
   inventory:
   - {fileID: 11400000, guid: 2dd2e438f57b8ba45acabb4ad0e664e4, type: 2}

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utilities.Units;
 
 [CreateAssetMenu(fileName = "Weapon Data", menuName = "Combat/Weapon Data")]
 public class WeaponData : ItemData {

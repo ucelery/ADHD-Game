@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0307468b1df4ec646a6d73caa49dbe39, type: 3}
+  m_Name: Standard Enemy Follow
+  m_EditorClassIdentifier: 
+  canChangeTargets: 0
+  priority: {fileID: 11400000, guid: eb80f43249b49274eb64fb2b4668e4ab, type: 2}
+  patrolMovement: {fileID: 0}
+  combatMovement: {fileID: 11400000, guid: d82391d204098bd47bd1017066a7ed82, type: 2}
+  idleMovement: {fileID: 0}

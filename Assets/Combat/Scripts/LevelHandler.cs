@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using Utilities.Units;
 
 /// <summary>
 /// This script handles xp and xp growth, please only increase LOG_BASE variable above 1.5f;
@@ -18,9 +18,13 @@ public class LevelHandler {
 	[SerializeField] private int baseXP = 100;
 	[SerializeField] private int requiredXP;
 
-	[Header("Events")] [Space]
-	public UnityEvent OnLevelUp;
-	public UnityEvent OnExperienceGain;
+	[Header("Events")]
+	public LevelEvents events;
+
+	public LevelHandler() {
+		events.OnLevelUp = new();
+		events.OnExperienceGain = new();
+	}
 
 	public void GainXP(int amount) {
 		currentXP += amount;
@@ -30,7 +34,7 @@ public class LevelHandler {
 			LevelUp();
 		}
 
-		OnExperienceGain.Invoke();
+		events.OnExperienceGain?.Invoke();
 	}
 
 	private void LevelUp() {
@@ -38,7 +42,7 @@ public class LevelHandler {
 		currentXP -= requiredXP;
 		requiredXP = CalculateXPRequired(level);
 
-		OnLevelUp.Invoke();
+		events.OnLevelUp?.Invoke();
 	}
 
 	private int CalculateXPRequired(int level) {

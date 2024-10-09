@@ -10,13 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10eab88f4953a8842a5cfd1dfe655d01, type: 3}
-  m_Name: Ally Base Stats
+  m_Name: Standard Base Stats
   m_EditorClassIdentifier: 
   hitPoints: 100
-  manaPoints: 100
-  speed: 3
-  attack: 5
-  attackSpeed: 3.5
   hpRegen: 5
+  manaPoints: 100
   mpRegen: 5
   defense: 4
+  attack: 5
+  attackSpeed: 1
+  speed: 3
+  dodgeChance: 0
+  critChance: 0
+  critDamage: 0

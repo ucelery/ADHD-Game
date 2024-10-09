@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc923926732db9746af49de1a30442d0, type: 3}
-  m_Name: Staff
+  m_Name: Dagger
   m_EditorClassIdentifier: 
-  itemId: basic_staff
+  itemId: basic_dagger
   InventoryProperties:
     itemName: Basic Staff
     itemDescription: A practicing staff good for initiates
@@ -30,5 +30,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 895f32e423f9092409bbc899277f08de, type: 2}
   - {fileID: 11400000, guid: 37030bab92904304897e7305355c7336, type: 2}
   rof: 1
-  range: 7
-  behaviour: {fileID: 11400000, guid: 5e052c5ec3e7dfe418984eb54231345d, type: 2}
+  range: 1
+  behaviour: {fileID: 11400000, guid: c77830af20137b4449efe98f095bb58b, type: 2}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc923926732db9746af49de1a30442d0, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  itemId: 
+  itemId: basic_sword
   InventoryProperties:
     itemName: Basic Sword
     itemDescription: A practicing sword good for beginners
@@ -26,4 +26,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8839fe38e44985a408c66a7c5a20d912, type: 2}
   rof: 1
   range: 7
-  behaviour: {fileID: 0}
+  behaviour: {fileID: 11400000, guid: 5e052c5ec3e7dfe418984eb54231345d, type: 2}
