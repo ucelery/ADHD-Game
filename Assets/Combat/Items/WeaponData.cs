@@ -6,7 +6,9 @@ using Utilities.Units;
 [CreateAssetMenu(fileName = "Weapon Data", menuName = "Combat/Weapon Data")]
 public class WeaponData : ItemData {
 	[Header("Weapon Properties")]
-    public ProjectileData[] projectiles;
+	public float minDamage = 1;
+	public float maxDamage = 5;
+	public ProjectileData[] projectiles;
 	public float rof = 1f; // rate of fire
 	public float range = 7f;
 	public UnitBehaviour behaviour;

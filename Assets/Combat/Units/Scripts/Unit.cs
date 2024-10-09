@@ -73,7 +73,10 @@ public class Unit : MonoBehaviour {
 	}
 
 	public void TakeDamage(Damage damage) {
-		// Debug.Log($"This unit took damage by {damage.origin}");
+		unitStatsHandler.HandleDamage(damage);
+
+		// Debug.Log($"This unit took damage {unitStatsHandler.HP}/{unitStatsHandler.MaxHP}");
+
 		events.OnTakeDamage?.Invoke();
 	}
 

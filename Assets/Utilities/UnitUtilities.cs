@@ -42,22 +42,6 @@ namespace Utilities.Units {
 		Idle, Patrolling, TargetDetected, InCombat, Dead
 	}
 
-	[System.Serializable]
-	public class Damage {
-		public Unit origin;
-		public WeaponData weapon;
-
-		public Damage(Unit origin, WeaponData weapon) {
-			this.origin = origin;
-			this.weapon = weapon;
-		}
-
-		public float CalculateDamage() {
-			// Implement damage formula here
-			return 0f;
-		}
-	}
-
 	public enum SpawnType {
 		Constant, Batches, Group, Circle
 	}

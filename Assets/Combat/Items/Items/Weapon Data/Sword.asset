@@ -22,6 +22,8 @@ MonoBehaviour:
     cellFilter: 0
     rotation: 0
   type: 8
+  minDamage: 15
+  maxDamage: 35
   projectiles:
   - {fileID: 11400000, guid: 8839fe38e44985a408c66a7c5a20d912, type: 2}
   rof: 1
