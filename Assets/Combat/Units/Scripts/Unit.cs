@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using Unity.Mathematics;
 using UnityEngine;
 using Utilities.Behaviour;
 using Utilities.Units;
+using static UnityEngine.InputSystem.OnScreen.OnScreenStick;
 
 public class Unit : MonoBehaviour {
 	[Header("Unit Properties")]
@@ -109,7 +113,7 @@ public class Unit : MonoBehaviour {
 				}
 
 				// if the target is dead, loop back to idle
-				if (false) {
+				if (this.target.state == UnitState.Dead) {
 					ChangeState(UnitState.Idle);
 				}
 				break;
@@ -130,34 +134,15 @@ public class Unit : MonoBehaviour {
 				break;
 			case UnitState.Patrolling: {
 					// follow the patrol movement
-					if (behaviour.patrolMovement.movement.Length < 1)
-						return;
-
-					this.nextPosition = behaviour.patrolMovement.GetPosition(this, target, currentMoveIndex);
-					if (Vector2.Distance((Vector2)transform.position, this.nextPosition) <= 0.013) {
-						currentMoveIndex++;
-
-						if (currentMoveIndex > behaviour.patrolMovement.movement.Length - 1)
-							currentMoveIndex = 0;
-					}
-
-					Movement move_props = behaviour.patrolMovement.movement[currentMoveIndex];
-					HandleMovement(this.nextPosition, move_props);
+					MovementData move_props = behaviour.patrolMovement;
+					HandleMovement(move_props);
 
 					break;
 				}
 			case UnitState.TargetDetected: {
 					// Handle combat movement
-					this.nextPosition = behaviour.combatMovement.GetPosition(this, target, currentMoveIndex);
-					if (Vector2.Distance((Vector2)transform.position, this.nextPosition) <= 0.013) {
-						currentMoveIndex++;
-
-						if (currentMoveIndex > behaviour.combatMovement.movement.Length - 1)
-							currentMoveIndex = 0;
-					}
-
-					Movement move_props = behaviour.combatMovement.movement[currentMoveIndex];
-					HandleMovement(this.nextPosition, move_props);
+					MovementData move_props = behaviour.aggroMovement;
+					HandleMovement(move_props);
 
 					break;
 				}
@@ -166,6 +151,9 @@ public class Unit : MonoBehaviour {
 					HandleItemActivation(target);
 					LookAtPos((Vector2)target.transform.position);
 
+					MovementData move_props = behaviour.combatMovement;
+					HandleMovement(move_props);
+
 					break;
 				}
 			case UnitState.Dead:
@@ -173,18 +161,14 @@ public class Unit : MonoBehaviour {
 		}
 	}
 
-	private void HandleMovement(Vector2 movePos, Movement props) {
-		if (moveRoutine != null || !canMove) return;
+	private void HandleMovement(MovementData movementData) {
+		if (movementData.movement.Length < 1)
+			return;
 
-		moveRoutine = StartCoroutine(MoveDelay(props.delay));
+		if (moveRoutine == null)
+			moveRoutine = StartCoroutine(MovementRoutine(movementData));
 
-		if (props.isInstant) {
-			transform.position = movePos;
-		} else {
-			transform.position = Vector2.MoveTowards(transform.position, movePos, Time.deltaTime * CurrentStats.Speed);
-		}
-		
-		LookAtPos(movePos);
+		LookAtPos(this.nextPosition);
 	}
 
 	private void LookAtPos(Vector2 pos) {
@@ -243,10 +227,36 @@ public class Unit : MonoBehaviour {
 		Gizmos.DrawWireSphere((Vector2)transform.position - direction.normalized, 0.5f);
 	}
 
-	private IEnumerator MoveDelay(float delay) {
-		canMove = false;
-		yield return new WaitForSeconds(delay);
-		canMove = true;
+	private IEnumerator MovementRoutine(MovementData movementData) {
+		if (unit.type == UnitType.Ally) 
+			Debug.Log("Start Moving");
+
+		Movement current_move_data = movementData.movement[currentMoveIndex];
+		if (current_move_data.isInstant)
+			transform.position = this.nextPosition;
+		else
+			while (Vector2.Distance((Vector2)transform.position, this.nextPosition) > 0.013f)
+				transform.position = Vector2.MoveTowards(transform.position, this.nextPosition, Time.deltaTime * CurrentStats.Speed);
+
+		yield return new WaitUntil(() => Vector2.Distance((Vector2)transform.position, this.nextPosition) <= 0.013f);
+		if (unit.type == UnitType.Ally) 
+			Debug.Log("Change Move Pos");
+
+		// Update Next Position
+		if (movementData.isRandom)
+			currentMoveIndex = UnityEngine.Random.Range(0, movementData.movement.Length);
+		else {
+			currentMoveIndex++;
+
+			if (currentMoveIndex > movementData.movement.Length - 1)
+				currentMoveIndex = 0;
+		}
+
+		yield return new WaitForSeconds(current_move_data.delay);
+		if (unit.type == UnitType.Ally)
+			Debug.Log("End Movement");
+
+		// End Routine
 		moveRoutine = null;
 	}
 }

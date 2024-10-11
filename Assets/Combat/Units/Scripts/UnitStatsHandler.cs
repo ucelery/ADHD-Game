@@ -40,8 +40,6 @@ public class UnitStatsHandler {
 		if (total_damage < 0)
 			total_damage = 1;
 
-		Debug.Log($"Total: {total_damage}; Incoming Damage: {incoming_dmg.CalculateDamage()}; Defense: {Mathf.Pow(Defense, 1.2f)}");
-
 		currentStats.hitPoints -= total_damage;
 	}
 }

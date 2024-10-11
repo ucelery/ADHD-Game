@@ -15,4 +15,5 @@ MonoBehaviour:
   canChangeTargets: 0
   priority: {fileID: 11400000, guid: eb80f43249b49274eb64fb2b4668e4ab, type: 2}
   patrolMovement: {fileID: 0}
-  combatMovement: {fileID: 11400000, guid: c506c2d1640d1594381e34bf39cbec33, type: 2}
+  aggroMovement: {fileID: 11400000, guid: d82391d204098bd47bd1017066a7ed82, type: 2}
+  combatMovement: {fileID: 11400000, guid: f4dfe3710f09df44292e7abf0ffd3455, type: 2}

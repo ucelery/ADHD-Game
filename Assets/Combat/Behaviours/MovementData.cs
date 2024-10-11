@@ -1,10 +1,10 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using Utilities.Behaviour;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 [CreateAssetMenu(fileName = "Movement Data", menuName = "Combat/Units/Unit Behaviour/Movement")]
 public class MovementData : ScriptableObject {
+	public bool isRandom;
 	public Movement[] movement;
 
 	public Vector2 GetPosition(Unit self, Unit target, int index) {

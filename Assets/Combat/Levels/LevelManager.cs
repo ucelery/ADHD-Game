@@ -26,7 +26,7 @@ public class LevelManager : MonoBehaviour {
 			case SpawnType.Group:
 				break;
 			case SpawnType.Circle:
-				spawner.CircleSpawn(spawnData.enemy, spawnData.spawnAmount, 10f, transform.position);
+				spawner.CircleSpawn(spawnData.enemies, 10f, transform.position);
 				break;
 		}
 

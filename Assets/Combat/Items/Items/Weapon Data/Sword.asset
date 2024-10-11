@@ -27,5 +27,5 @@ MonoBehaviour:
   projectiles:
   - {fileID: 11400000, guid: 8839fe38e44985a408c66a7c5a20d912, type: 2}
   rof: 1
-  range: 7
+  range: 3.5
   behaviour: {fileID: 11400000, guid: 5e052c5ec3e7dfe418984eb54231345d, type: 2}

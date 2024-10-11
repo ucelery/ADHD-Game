@@ -11,5 +11,6 @@ public class UnitBehaviour : ScriptableObject {
 
 	// Movement Behaviour
 	public MovementData patrolMovement;
+	public MovementData aggroMovement;
 	public MovementData combatMovement;
 }

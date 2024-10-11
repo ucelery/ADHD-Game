@@ -56,7 +56,7 @@ namespace Utilities.Units {
 		[Tooltip("Interval between spawns")]
 		public float spawnInterval;
 		public SpawnType spawnType;
-		public UnitData enemy;
+		public UnitData[] enemies;
 	}
 
 	[System.Serializable]

@@ -13,10 +13,11 @@ public class Spawner : MonoBehaviour {
 		UnitPooling.Instance.SpawnUnit(spawnUnit, allyContainer.position);
 	}
 
-	public void CircleSpawn(UnitData unitData, int amount, float radius, Vector2 center) {
-		float angleStep = 360f / amount;
+	public void CircleSpawn(UnitData[] unitsData, float radius, Vector2 center) {
+		float angleStep = 360f / unitsData.Length;
 
-		for (int i = 0; i < amount; i++) {
+		int spawn_index = 0;
+		for (int i = 0; i < unitsData.Length; i++) {
 			float angle = i * angleStep * Mathf.Deg2Rad;
 
 			// Calculate the position of each object on the circle
@@ -25,7 +26,11 @@ public class Spawner : MonoBehaviour {
 
 			Vector2 spawnPosition = new Vector2(x, y) + center;
 
-			UnitPooling.Instance.SpawnUnit(unitData, spawnPosition);
+			UnitPooling.Instance.SpawnUnit(unitsData[i], spawnPosition);
+
+			spawn_index++;
+			if (spawn_index > unitsData.Length - 1)
+				spawn_index = 0;
 		}
 	}
 }
